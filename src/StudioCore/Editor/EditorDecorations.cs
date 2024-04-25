@@ -2,7 +2,6 @@
 using static Andre.Native.ImGuiBindings;
 using Microsoft.Extensions.Logging;
 using SoulsFormats;
-using StudioCore.ParamEditor;
 using StudioCore.TextEditor;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,9 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using Veldrid;
+using StudioCore.UserProjectSpace;
+using StudioCore.Configuration;
+using StudioCore.Editors.ParamEditor;
 
 namespace StudioCore.Editor;
 
@@ -379,11 +381,10 @@ public unsafe class EditorDecorations
             {
                 List<string> matchedExtRefPath =
                     currentRef.paths.Select(x => string.Format(x, searchValue)).ToList();
-                AssetLocator al = ParamBank.PrimaryBank.AssetLocator;
-                ExtRefItem(context, fieldName, $"modded {currentRef.name}", matchedExtRefPath, al.GameModDirectory,
+                ExtRefItem(context, fieldName, $"modded {currentRef.name}", matchedExtRefPath, Project.GameModDirectory,
                     cacheOwner);
                 ExtRefItem(context, fieldName, $"vanilla {currentRef.name}", matchedExtRefPath,
-                    al.GameRootDirectory, cacheOwner);
+                    Project.GameRootDirectory, cacheOwner);
             }
         }
     }

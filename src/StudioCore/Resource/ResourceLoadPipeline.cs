@@ -1,4 +1,5 @@
 ﻿using SoulsFormats;
+using StudioCore.UserProjectSpace;
 using System;
 using System.IO;
 using System.Threading.Tasks.Dataflow;
@@ -8,21 +9,18 @@ namespace StudioCore.Resource;
 public readonly record struct LoadByteResourceRequest(
     string VirtualPath,
     Memory<byte> Data,
-    AccessLevel AccessLevel,
-    GameType GameType);
+    AccessLevel AccessLevel);
 
 public readonly record struct LoadFileResourceRequest(
     string VirtualPath,
     string File,
-    AccessLevel AccessLevel,
-    GameType GameType);
+    AccessLevel AccessLevel);
 
 public readonly record struct LoadTPFTextureResourceRequest(
     string VirtualPath,
     TPF Tpf,
     int Index,
-    AccessLevel AccessLevel,
-    GameType GameType);
+    AccessLevel AccessLevel);
 
 public readonly record struct ResourceLoadedReply(
     string VirtualPath,
@@ -51,7 +49,7 @@ public class ResourceLoadPipeline<T> : IResourceLoadPipeline where T : class, IR
         _loadByteResourcesTransform = new ActionBlock<LoadByteResourceRequest>(r =>
         {
             var res = new T();
-            var success = res._Load(r.Data, r.AccessLevel, r.GameType);
+            var success = res._Load(r.Data, r.AccessLevel);
             if (success)
             {
                 _loadedResources.Post(new ResourceLoadedReply(r.VirtualPath, r.AccessLevel, res));
@@ -62,7 +60,7 @@ public class ResourceLoadPipeline<T> : IResourceLoadPipeline where T : class, IR
             try
             {
                 var res = new T();
-                var success = res._Load(r.File, r.AccessLevel, r.GameType);
+                var success = res._Load(r.File, r.AccessLevel);
                 if (success)
                 {
                     _loadedResources.Post(new ResourceLoadedReply(r.VirtualPath, r.AccessLevel, res));

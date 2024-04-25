@@ -1,6 +1,7 @@
 ﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.MsbEditor;
 using System.Numerics;
+using StudioCore.Editors.MsbEditor;
 
 namespace StudioCore.Scene;
 
@@ -30,7 +31,7 @@ internal class CreatePrefabModal : IModal
 
     public void OnGui()
     {
-        var scale = MapStudioNew.GetUIScale();
+        var scale = DSMapStudio.GetUIScale();
 
         ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowRounding, 7.0f * scale);
         ImGui.PushStyleVarFloat(ImGuiStyleVar.WindowBorderSize, 1.0f);

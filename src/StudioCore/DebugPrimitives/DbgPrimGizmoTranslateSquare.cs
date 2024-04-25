@@ -1,4 +1,4 @@
-﻿using StudioCore.MsbEditor;
+﻿using StudioCore.Editors.MsbEditor;
 using StudioCore.Scene;
 using System;
 using System.Collections.Generic;

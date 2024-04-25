@@ -1,28 +1,25 @@
-﻿using Octokit;
-using StudioCore.Editor;
+﻿using StudioCore.Editor;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization.Metadata;
 using System.Text.Json;
-using System.Threading.Tasks;
-using DotNext.Text;
+using System.Text;
+using StudioCore.BanksMain;
+using StudioCore.UserProjectSpace;
 
 namespace StudioCore.Banks.AliasBank;
 
 /// <summary>
 /// An alias bank holds naming information, allowing for user-readable notes to be appended to raw identifiers (e.g. c0000 becomes c0000 <Player>)
-/// An alias bank has 2 sources: DSMS, and the local project. 
-/// Entries in the local project version will supercede the DSMS entries.
+/// An alias bank has 2 sources: Smithbox, and the local project. 
+/// Entries in the local project version will supercede the Smithbox entries.
 /// </summary>
 public class AliasBank
 {
     public AliasContainer _loadedAliasBank { get; set; }
 
     public bool IsLoadingAliases { get; set; }
-    public bool mayReloadAliasBank { get; set; }
+    public bool CanReloadBank { get; set; }
 
     private string TemplateName = "Template.json";
 
@@ -36,17 +33,17 @@ public class AliasBank
 
     private string AliasName = "";
 
-    private AliasType aliasType;
+    public AliasBankType aliasType;
 
-    public Dictionary<string, string> MapNames;
+    public Dictionary<string, string> enumDict;
 
-    public AliasBank(AliasType _aliasType)
+    public AliasBank(AliasBankType _aliasType)
     {
-        mayReloadAliasBank = false;
+        CanReloadBank = false;
 
         aliasType = _aliasType;
 
-        if (aliasType is AliasType.Model)
+        if (aliasType is AliasBankType.Model)
         {
             AliasName = "Models";
             AliasDirectory = "Models";
@@ -54,11 +51,43 @@ public class AliasBank
             IsAssetFileType = true;
         }
 
-        if (aliasType is AliasType.Map)
+        if (aliasType is AliasBankType.EventFlag)
+        {
+            AliasName = "Flags";
+            AliasDirectory = "Flags";
+            FileName = "EventFlag";
+            IsAssetFileType = false;
+        }
+
+        if (aliasType is AliasBankType.Particle)
+        {
+            AliasName = "Particles";
+            AliasDirectory = "Particles";
+            FileName = "Fxr";
+            IsAssetFileType = false;
+        }
+
+        if (aliasType is AliasBankType.Map)
         {
             AliasName = "Maps";
             AliasDirectory = "Maps";
             FileName = "Maps";
+            IsAssetFileType = false;
+        }
+
+        if (aliasType is AliasBankType.Gparam)
+        {
+            AliasName = "Gparams";
+            AliasDirectory = "Gparams";
+            FileName = "Gparams";
+            IsAssetFileType = false;
+        }
+
+        if (aliasType is AliasBankType.Sound)
+        {
+            AliasName = "Sounds";
+            AliasDirectory = "Sounds";
+            FileName = "Sound";
             IsAssetFileType = false;
         }
     }
@@ -82,11 +111,16 @@ public class AliasBank
             _loadedAliasBank = new AliasContainer();
             IsLoadingAliases = true;
 
-            if (Locator.AssetLocator.Type != GameType.Undefined)
+            if (Project.Type != ProjectType.Undefined)
             {
                 try
                 {
-                    _loadedAliasBank = new AliasContainer(aliasType, Locator.AssetLocator.GetGameIDForDir(), Locator.AssetLocator.GameModDirectory);
+                    _loadedAliasBank = new AliasContainer(aliasType, Project.GetGameIDForDir(), Project.GameModDirectory);
+
+                    if (aliasType == AliasBankType.Map)
+                    {
+                        MapAliasBank.ReloadMapNames();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -99,8 +133,6 @@ public class AliasBank
             {
                 IsLoadingAliases = false;
             }
-
-            UpdateMapNames();
         }));
     }
 
@@ -121,11 +153,11 @@ public class AliasBank
 
     public void WriteTargetAliasBank(AliasResource targetBank, string assetType)
     {
-        var resourcePath = Locator.AssetLocator.GameModDirectory + $"\\{ProgramDirectory}\\Assets\\Aliases\\{AliasDirectory}\\{Locator.AssetLocator.GetGameIDForDir()}\\";
+        var resourcePath = Project.GameModDirectory + $"\\{ProgramDirectory}\\Assets\\Aliases\\{AliasDirectory}\\{Project.GetGameIDForDir()}\\";
 
         if (CFG.Current.AliasBank_EditorMode)
         {
-            resourcePath = AppContext.BaseDirectory + $"\\Assets\\Aliases\\{AliasDirectory}\\{Locator.AssetLocator.GetGameIDForDir()}\\";
+            resourcePath = AppContext.BaseDirectory + $"\\Assets\\Aliases\\{AliasDirectory}\\{Project.GetGameIDForDir()}\\";
         }
 
         var resourceFilePath = $"{resourcePath}\\{FileName}.json";
@@ -138,7 +170,7 @@ public class AliasBank
         if (File.Exists(resourceFilePath))
         {
             string jsonString = JsonSerializer.Serialize(targetBank, typeof(AliasResource), AliasResourceSerializationContext.Default);
-            
+
             try
             {
                 var fs = new FileStream(resourceFilePath, System.IO.FileMode.Create);
@@ -158,11 +190,11 @@ public class AliasBank
     {
         var templateResource = AppContext.BaseDirectory + $"\\Assets\\Aliases\\{TemplateName}";
 
-        var resourcePath = Locator.AssetLocator.GameModDirectory + $"\\{ProgramDirectory}\\Assets\\Aliases\\{AliasDirectory}\\{Locator.AssetLocator.GetGameIDForDir()}\\";
+        var resourcePath = Project.GameModDirectory + $"\\{ProgramDirectory}\\Assets\\Aliases\\{AliasDirectory}\\{Project.GetGameIDForDir()}\\";
 
         if (CFG.Current.AliasBank_EditorMode)
         {
-            resourcePath = AppContext.BaseDirectory + $"\\Assets\\Aliases\\{AliasDirectory}\\{Locator.AssetLocator.GetGameIDForDir()}\\";
+            resourcePath = AppContext.BaseDirectory + $"\\Assets\\Aliases\\{AliasDirectory}\\{Project.GetGameIDForDir()}\\";
         }
 
         var resourceFilePath = $"{resourcePath}\\{FileName}.json";
@@ -245,11 +277,11 @@ public class AliasBank
     /// </summary>
     public void RemoveFromLocalAliasBank(string assetType, string refID)
     {
-        var resourcePath = Locator.AssetLocator.GameModDirectory + $"\\{ProgramDirectory}\\Assets\\Aliases\\{AliasDirectory}\\{Locator.AssetLocator.GetGameIDForDir()}\\";
+        var resourcePath = Project.GameModDirectory + $"\\{ProgramDirectory}\\Assets\\Aliases\\{AliasDirectory}\\{Project.GetGameIDForDir()}\\";
 
         if (CFG.Current.AliasBank_EditorMode)
         {
-            resourcePath = AppContext.BaseDirectory + $"\\Assets\\Aliases\\{AliasDirectory}\\{Locator.AssetLocator.GetGameIDForDir()}\\";
+            resourcePath = AppContext.BaseDirectory + $"\\Assets\\Aliases\\{AliasDirectory}\\{Project.GetGameIDForDir()}\\";
         }
 
         var resourceFilePath = $"{resourcePath}\\{FileName}.json";
@@ -279,28 +311,24 @@ public class AliasBank
         }
     }
 
-    public void UpdateMapNames()
+    public Dictionary<string, string> GetEnumDictionary()
     {
-        if (aliasType is AliasType.Map)
+        if (enumDict == null)
         {
-            var _mapNames = new Dictionary<string, string>();
-
-            foreach (var entry in AliasNames.GetEntries("Maps"))
+            enumDict = new Dictionary<string, string>();
+            var entries = AliasNames.GetEntries(AliasName);
+            foreach (var entry in entries)
             {
-                if (!CFG.Current.MapAliases_ShowUnusedNames)
+                var name = entry.name;
+                if (name == "")
                 {
-                    if (entry.tags[0] != "unused")
-                    {
-                        _mapNames.Add(entry.id, entry.name);
-                    }
-                    else
-                    {
-                        _mapNames.Add(entry.id, entry.name);
-                    }
+                    name = "Not named";
                 }
-            }
 
-            MapNames = _mapNames;
+                enumDict[entry.id] = name;
+            }
         }
+
+        return enumDict;
     }
 }

@@ -23,8 +23,8 @@ namespace DSMapStudio_LowRequirements
             currentDomain.UnhandledException += CrashHandler;
             Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException());
             _version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion ?? "undefined";
-            MapStudioNew.LowRequirementsMode = true;
-            var mapStudio = new MapStudioNew(new OpenGLCompatGraphicsContext(), _version);
+            DSMapStudio.LowRequirementsMode = true;
+            var mapStudio = new DSMapStudio(new OpenGLCompatGraphicsContext(), _version);
 #if !DEBUG
             try
             {

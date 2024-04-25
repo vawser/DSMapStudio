@@ -468,12 +468,17 @@
     <Compile Update="DDSDeswizzler.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
-    <Compile Update="MapStudioNew.cs">
+    <Compile Update="DSMapStudio.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
     <Compile Update="NewAnimSkeleton.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interface\View\" />
+    <Folder Include="Interface\Tabs\" />
   </ItemGroup>
 
 </Project>

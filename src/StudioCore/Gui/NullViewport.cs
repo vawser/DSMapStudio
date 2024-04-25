@@ -1,9 +1,9 @@
 ﻿using static Andre.Native.ImGuiBindings;
-using StudioCore.MsbEditor;
 using System.Numerics;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
+using StudioCore.Editors.MsbEditor;
 
 namespace StudioCore.Gui;
 

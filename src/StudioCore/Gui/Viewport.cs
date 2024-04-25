@@ -1,6 +1,5 @@
 ﻿using static Andre.Native.ImGuiBindings;
 using StudioCore.DebugPrimitives;
-using StudioCore.MsbEditor;
 using StudioCore.Resource;
 using StudioCore.Scene;
 using System;
@@ -10,6 +9,8 @@ using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.Utilities;
 using Rectangle = Veldrid.Rectangle;
+using StudioCore.Configuration;
+using StudioCore.Editors.MsbEditor;
 
 namespace StudioCore.Gui;
 

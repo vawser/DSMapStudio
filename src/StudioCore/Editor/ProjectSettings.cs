@@ -1,4 +1,5 @@
 ﻿using StudioCore.Platform;
+using StudioCore.UserProjectSpace;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +21,7 @@ public class ProjectSettings
 {
     public string ProjectName { get; set; } = "";
     public string GameRoot { get; set; } = "";
-    public GameType GameType { get; set; } = GameType.Undefined;
+    public ProjectType GameType { get; set; } = ProjectType.Undefined;
 
     // JsonExtensionData stores info in config file not present in class in order to retain settings between versions.
 #pragma warning disable IDE0051

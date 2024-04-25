@@ -1,6 +1,6 @@
 using static Andre.Native.ImGuiBindings;
-using StudioCore.ParamEditor;
 using System.Numerics;
+using StudioCore.Editors.ParamEditor;
 
 namespace StudioCore.Editor;
 
@@ -117,7 +117,7 @@ Some common tools for mapstudio include:
 
     public static bool AddImGuiHintButton(string id, ref string hint, bool canEdit = false, bool isRowHint = false)
     {
-        var scale = MapStudioNew.GetUIScale();
+        var scale = DSMapStudio.GetUIScale();
         var ret = false;
         /*
         ImGui.TextColored(new Vector4(0.6f, 0.6f, 1.0f, 1.0f), "Help");

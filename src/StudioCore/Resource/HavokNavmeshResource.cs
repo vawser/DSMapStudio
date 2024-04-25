@@ -34,7 +34,7 @@ public class HavokNavmeshResource : IResource, IDisposable
 
     public BoundingBox Bounds { get; set; }
 
-    public bool _Load(Memory<byte> bytes, AccessLevel al, GameType type)
+    public bool _Load(Memory<byte> bytes, AccessLevel al)
     {
         BinaryReaderEx br = new(false, bytes);
         var des = new PackFileDeserializer();
@@ -42,7 +42,7 @@ public class HavokNavmeshResource : IResource, IDisposable
         return LoadInternal(al);
     }
 
-    public bool _Load(string path, AccessLevel al, GameType type)
+    public bool _Load(string path, AccessLevel al)
     {
         using var file =
             MemoryMappedFile.CreateFromFile(path, FileMode.Open, null, 0, MemoryMappedFileAccess.Read);

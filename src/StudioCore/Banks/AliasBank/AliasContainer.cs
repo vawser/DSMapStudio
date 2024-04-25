@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization.Metadata;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.IO;
-using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace StudioCore.Banks.AliasBank;
 
@@ -14,7 +9,7 @@ public class AliasContainer
 {
     private Dictionary<string, AliasResource> aliasMap = new Dictionary<string, AliasResource>();
 
-    private AliasType aliasType;
+    private AliasBankType aliasType;
 
     private string gametype;
 
@@ -25,15 +20,15 @@ public class AliasContainer
     public AliasContainer()
     {
         aliasMap = null;
-        aliasType = AliasType.None;
+        aliasType = AliasBankType.None;
     }
-    public AliasContainer(AliasType _aliasType, string _gametype, string _gameModDirectory)
+    public AliasContainer(AliasBankType _aliasType, string _gametype, string _gameModDirectory)
     {
         aliasType = _aliasType;
         gametype = _gametype;
         gameModDirectory = _gameModDirectory;
 
-        if (aliasType is AliasType.Model)
+        if (aliasType is AliasBankType.Model)
         {
             aliasMap.Add("Characters", LoadJSON("Chr"));
             aliasMap.Add("Objects", LoadJSON("Obj"));
@@ -41,17 +36,28 @@ public class AliasContainer
             aliasMap.Add("MapPieces", LoadJSON("MapPiece"));
         }
 
-        if (aliasType is AliasType.Map)
-        {
+        if (aliasType is AliasBankType.EventFlag)
+            aliasMap.Add("Flags", LoadJSON("EventFlag"));
+
+        if (aliasType is AliasBankType.Particle)
+            aliasMap.Add("Particles", LoadJSON("Fxr"));
+
+        if (aliasType is AliasBankType.Map)
             aliasMap.Add("Maps", LoadJSON("Maps"));
-        }
+
+        if (aliasType is AliasBankType.Gparam)
+            aliasMap.Add("Gparams", LoadJSON("Gparams"));
+
+        if (aliasType is AliasBankType.Sound)
+            aliasMap.Add("Sounds", LoadJSON("Sound"));
     }
+
     private AliasResource LoadJSON(string filename)
     {
         var baseResource = new AliasResource();
         var modResource = new AliasResource();
 
-        if (aliasType is AliasType.None)
+        if (aliasType is AliasBankType.None)
             return null;
 
         var baseResourcePath = AppContext.BaseDirectory + $"\\Assets\\Aliases\\{GetAliasTypeDir()}\\{gametype}\\{filename}.json";
@@ -60,7 +66,7 @@ public class AliasContainer
         {
             using (var stream = File.OpenRead(baseResourcePath))
             {
-                baseResource = JsonSerializer.Deserialize(stream, AliasResourceSerializationContext.Default.AliasResource);   
+                baseResource = JsonSerializer.Deserialize(stream, AliasResourceSerializationContext.Default.AliasResource);
             }
         }
 
@@ -81,24 +87,15 @@ public class AliasContainer
                 var baseName = bEntry.name;
                 var baseTags = bEntry.tags;
 
-                TaskLogs.AddLog($"baseId {baseId}");
-                TaskLogs.AddLog($"baseName {baseName}");
-
                 foreach (var mEntry in modResource.list)
                 {
                     var modId = mEntry.id;
                     var modName = mEntry.name;
                     var modTags = mEntry.tags;
 
-                    TaskLogs.AddLog($"modId {modId}");
-                    TaskLogs.AddLog($"modName {modName}");
-
                     // Mod override exists
                     if (baseId == modId)
                     {
-                        TaskLogs.AddLog($"Override with {modId}");
-                        TaskLogs.AddLog($"Override with {modName}");
-
                         bEntry.id = modId;
                         bEntry.name = modName;
                         bEntry.tags = modTags;
@@ -134,15 +131,23 @@ public class AliasContainer
     {
         var typDir = "";
 
-        if (aliasType is AliasType.Model)
-        {
+        if (aliasType is AliasBankType.Model)
             typDir = "Models";
-        }
 
-        if (aliasType is AliasType.Map)
-        {
+        if (aliasType is AliasBankType.EventFlag)
+            typDir = "Flags";
+
+        if (aliasType is AliasBankType.Particle)
+            typDir = "Particles";
+
+        if (aliasType is AliasBankType.Map)
             typDir = "Maps";
-        }
+
+        if (aliasType is AliasBankType.Gparam)
+            typDir = "Gparams";
+
+        if (aliasType is AliasBankType.Sound)
+            typDir = "Sounds";
 
         return typDir;
     }

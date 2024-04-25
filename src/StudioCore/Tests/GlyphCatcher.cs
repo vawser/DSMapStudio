@@ -1,6 +1,8 @@
 ﻿using DotNext.Collections.Generic;
 using SoulsFormats;
+using StudioCore.Locators;
 using StudioCore.TextEditor;
+using StudioCore.UserProjectSpace;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,40 +34,40 @@ public static class GlyphCatcher
     /// <summary>
     ///     Goes through entries in project's MSBs to find characters that do not load with current font glyph ranges.
     /// </summary>
-    public static unsafe void CheckMSB(AssetLocator locator)
+    public static unsafe void CheckMSB()
     {
-        var maps = locator.GetFullMapList();
+        var maps = MapAssetLocator.GetFullMapList();
         HashSet<char> msbChars = new();
         foreach (var mapName in maps)
         {
             IMsb msb = null;
-            var path = locator.GetMapMSB(mapName).AssetPath;
+            var path = MapAssetLocator.GetMapMSB(mapName).AssetPath;
 
-            switch (locator.Type)
+            switch (Project.Type)
             {
-                case GameType.DemonsSouls:
+                case ProjectType.DES:
                     msb = MSBD.Read(path);
                     break;
-                case GameType.DarkSoulsPTDE:
-                case GameType.DarkSoulsRemastered:
+                case ProjectType.DS1:
+                case ProjectType.DS1R:
                     msb = MSB1.Read(path);
                     break;
-                case GameType.DarkSoulsIISOTFS:
+                case ProjectType.DS2S:
                     msb = MSB2.Read(path);
                     break;
-                case GameType.DarkSoulsIII:
+                case ProjectType.DS3:
                     msb = MSB3.Read(path);
                     break;
-                case GameType.Bloodborne:
+                case ProjectType.BB:
                     msb = MSBB.Read(path);
                     break;
-                case GameType.Sekiro:
+                case ProjectType.SDT:
                     msb = MSBS.Read(path);
                     break;
-                case GameType.EldenRing:
+                case ProjectType.ER:
                     msb = MSBE.Read(path);
                     break;
-                case GameType.ArmoredCoreVI:
+                case ProjectType.AC6:
                     msb = MSB_AC6.Read(path);
                     break;
                 default:

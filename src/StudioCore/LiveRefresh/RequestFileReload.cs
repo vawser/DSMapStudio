@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioCore.UserProjectSpace;
+using System;
 using System.Text;
 
 namespace StudioCore.LiveRefresh;
@@ -12,11 +13,9 @@ public class RequestFileReload
         Object
     }
 
-    public static GameType Type;
-
     internal static long GetReloadPtr()
     {
-        if (Type == GameType.DarkSoulsIII)
+        if (Project.Type == ProjectType.DS3)
         {
             var GetReloadPtr_ = IntPtr.Add(Memory.BaseAddress, 0x4768E78);
             GetReloadPtr_ = new IntPtr(Memory.ReadInt64(GetReloadPtr_));
@@ -30,7 +29,7 @@ public class RequestFileReload
     {
         var PartsPtr = (IntPtr)GetReloadPtr();
 
-        if (Type == GameType.DarkSoulsIII)
+        if (Project.Type == ProjectType.DS3)
         {
             try
             {
@@ -66,7 +65,7 @@ public class RequestFileReload
     {
         var chrNameBytes = Encoding.Unicode.GetBytes(chrName);
 
-        if (Type == GameType.DarkSoulsIII)
+        if (Project.Type == ProjectType.DS3)
         {
             try
             {
@@ -99,7 +98,7 @@ public class RequestFileReload
     {
         var objNameBytes = Encoding.Unicode.GetBytes(objName);
 
-        if (Type == GameType.DarkSoulsIII)
+        if (Project.Type == ProjectType.DS3)
         {
             try
             {
