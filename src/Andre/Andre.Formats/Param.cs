@@ -238,6 +238,19 @@ public class Param : SoulsFile<Param>
     }
 
     /// <summary>
+    /// Returns true if the param contains the specified row ID
+    /// </summary>
+    public bool ContainsRow(int id)
+    {
+        if(_rows.Any(e => e.ID == id))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     ///     List of columns created from the applied paramdef. You can iterate through these and use the columns
     ///     to access the specific data of rows.
     /// </summary>
@@ -382,8 +395,11 @@ public class Param : SoulsFile<Param>
         {
             if (def.VersionAware && !field.IsValidForRegulationVersion(regulationVersion))
                 continue;
+
             PARAMDEF.DefType type = field.DisplayType;
+
             var isBitType = ParamUtil.IsBitType(type);
+
             if (!isBitType || (isBitType && field.BitSize == -1))
             {
                 // Advance the offset if we were last reading bits
@@ -393,6 +409,7 @@ public class Param : SoulsFile<Param>
                 columns.Add(ParamUtil.IsArrayType(type)
                     ? new Column(field, byteOffset, (uint)field.ArrayLength)
                     : new Column(field, byteOffset));
+
                 switch (type)
                 {
                     case PARAMDEF.DefType.s8:
@@ -432,16 +449,23 @@ public class Param : SoulsFile<Param>
                 var bitLimit = ParamUtil.GetBitLimit(newBitType);
 
                 if (field.BitSize == 0)
+                {
                     throw new NotImplementedException("Bit size 0 is not supported.");
+                }
+
                 if (field.BitSize > bitLimit)
+                {
                     throw new InvalidDataException(
                         $"Bit size {field.BitSize} is too large to fit in type {newBitType}.");
+                }
 
                 lastSize = (uint)ParamUtil.GetValueSize(newBitType);
+
                 if (bitOffset == -1 || newBitType != bitType || bitOffset + field.BitSize > bitLimit)
                 {
                     if (bitOffset != -1)
                         byteOffset += lastSize;
+
                     bitOffset = 0;
                     bitType = newBitType;
                 }
@@ -464,7 +488,7 @@ public class Param : SoulsFile<Param>
         // If a row size is already read it must match our computed row size
         else if (byteOffset != RowSize)
         {
-            throw new Exception($@"Row size paramdef mismatch for {ParamType}");
+            throw new Exception($@"Row size paramdef mismatch for {ParamType} - byteOffset:{byteOffset} - rowSize:{RowSize}");
         }
 
         Columns = columns;
@@ -489,15 +513,14 @@ public class Param : SoulsFile<Param>
     }
 
     /// <summary>
-    ///     People were using Yapped and other param editors to save botched ER 1.06 params, so we need
-    ///     to fix them up again. Fortunately the only modified paramdef was ChrModelParam, and the new
-    ///     field is always 0, so we can easily fix them.
+    /// Fix up function to extend Param rows when they are expanded in regulation patches. Ignored if the Param row is already fixed.
     /// </summary>
-    public void FixupERChrModelParam()
+    public bool FixupERField(int originalSize, int newSize)
     {
-        if (RowSize != 12)
-            return;
-        var newData = new StridedByteArray((uint)Rows.Count, 16, BigEndian);
+        if (RowSize != originalSize)
+            return false;
+
+        var newData = new StridedByteArray((uint)Rows.Count, (uint)newSize, BigEndian);
         for (var i = 0; i < Rows.Count; i++)
         {
             newData.AddZeroedElement();
@@ -505,7 +528,9 @@ public class Param : SoulsFile<Param>
         }
 
         _paramData = newData;
-        RowSize = 16;
+        RowSize = newSize;
+
+        return true;
     }
 
     protected override void Read(BinaryReaderEx br)
@@ -968,6 +993,14 @@ public class Param : SoulsFile<Param>
         public void SetValue(object value)
         {
             _column.SetValue(_row, value);
+        }
+
+        public bool IsNull()
+        {
+            if (_column == null)
+                return true;
+
+            return false;
         }
 
         /// <summary>

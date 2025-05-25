@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -18,8 +19,8 @@ namespace SoulsFormats
         public List<Material> Materials { get; set; }
         IReadOnlyList<IFlverMaterial> IFlver.Materials => Materials;
 
-        public List<FLVER.Bone> Bones { get; set; }
-        IReadOnlyList<FLVER.Bone> IFlver.Bones => Bones;
+        public List<FLVER.Node> Nodes { get; set; }
+        IReadOnlyList<FLVER.Node> IFlver.Nodes => Nodes;
 
         public List<Mesh> Meshes { get; set; }
         IReadOnlyList<IFlverMesh> IFlver.Meshes => Meshes;
@@ -46,12 +47,19 @@ namespace SoulsFormats
         /// <returns>A matrix representing the world transform of the bone.</returns>
         public Matrix4x4 ComputeBoneWorldMatrix(int index)
         {
-            var bone = Bones[index];
-            Matrix4x4 matrix = bone.ComputeLocalTransform();
-            while (bone.ParentIndex != -1)
+            if(index == -1)
             {
-                bone = Bones[bone.ParentIndex];
-                matrix *= bone.ComputeLocalTransform();
+                return Matrix4x4.Identity;
+            }
+            var bone = Nodes[index];
+            Matrix4x4 matrix = Nodes[index].ComputeLocalTransform();
+            if (bone.ParentIndex != -1)
+            {
+                do
+                {
+                    bone = Nodes[bone.ParentIndex];
+                    matrix *= bone.ComputeLocalTransform();
+                } while (bone.ParentIndex != -1);
             }
 
             return matrix;
@@ -66,7 +74,7 @@ namespace SoulsFormats
             br.BigEndian = Header.BigEndian;
 
             // 10002, 10003 - Another Century's Episode R
-            Header.Version = br.AssertInt32([0x0E, 0x0F, 0x10, 0x12, 0x13, 0x14, 0x15,
+            Header.Version = br.AssertInt32([0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15,
                 0x10002, 0x10003]);
             int dataOffset = br.ReadInt32();
             br.ReadInt32(); // Data length
@@ -99,15 +107,31 @@ namespace SoulsFormats
 
             Materials = new List<Material>(materialCount);
             for (int i = 0; i < materialCount; i++)
-                Materials.Add(new Material(br, Header.Unicode));
+                Materials.Add(new Material(br, Header.Unicode, Header.Version));
 
-            Bones = new List<FLVER.Bone>(boneCount);
+            Nodes = new List<FLVER.Node>(boneCount);
             for (int i = 0; i < boneCount; i++)
-                Bones.Add(new FLVER.Bone(br, Header.Unicode));
+                Nodes.Add(new FLVER.Node(br, Header.Unicode));
 
             Meshes = new List<Mesh>(meshCount);
             for (int i = 0; i < meshCount; i++)
-                Meshes.Add(new Mesh(br, this, dataOffset));
+                Meshes.Add(new Mesh(br, this, dataOffset, Header.Version));
+        }
+
+        /// <summary>
+        /// A hack to try to fix the messed up endianness for some ACFA test FLVER0 values on version 0x11.
+        /// </summary>
+        /// <param name="br">The reader.</param>
+        /// <param name="version">The FLVER version.</param>
+        /// <returns>The read value.</returns>
+        internal static int ReadVarEndianInt32(BinaryReaderEx br, int version)
+        {
+            int value = br.ReadInt32();
+            if (version != 0x11 || !br.BigEndian)
+                return value;
+
+            int leValue = BinaryPrimitives.ReverseEndianness(value);
+            return (int)Math.Min((uint)value, (uint)leValue);
         }
 
         protected override void Write(BinaryWriterEx bw)
@@ -121,7 +145,7 @@ namespace SoulsFormats
             bw.ReserveInt32("DataSize");
             bw.WriteInt32(Dummies.Count);
             bw.WriteInt32(Materials.Count);
-            bw.WriteInt32(Bones.Count);
+            bw.WriteInt32(Nodes.Count);
             bw.WriteInt32(Meshes.Count);
             bw.WriteInt32(Meshes.Count); //Vert buffer count. Currently based on reads, there should only be one per mesh
             bw.WriteVector3(Header.BoundingBoxMin);
@@ -166,8 +190,8 @@ namespace SoulsFormats
             for (int i = 0; i < Materials.Count; i++)
                 Materials[i].Write(bw, i);
 
-            for (int i = 0; i < Bones.Count; i++)
-                Bones[i].Write(bw, i);
+            for (int i = 0; i < Nodes.Count; i++)
+                Nodes[i].Write(bw, i);
 
             for (int i = 0; i < Meshes.Count; i++)
                 Meshes[i].Write(bw, this, i);
@@ -175,8 +199,8 @@ namespace SoulsFormats
             for (int i = 0; i < Materials.Count; i++)
                 Materials[i].WriteSubStructs(bw, Header.Unicode, i);
 
-            for (int i = 0; i < Bones.Count; i++)
-                Bones[i].WriteStrings(bw, Header.Unicode, i);
+            for (int i = 0; i < Nodes.Count; i++)
+                Nodes[i].WriteStrings(bw, Header.Unicode, i);
 
             for (int i = 0; i < Meshes.Count; i++)
                 Meshes[i].WriteVertexBufferHeader(bw, this, i);
@@ -194,6 +218,11 @@ namespace SoulsFormats
             }
 
             bw.FillInt32("DataSize", (int)bw.Position - dataOffset);
+        }
+
+        public bool IsSpeedtree()
+        {
+            return false;
         }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }

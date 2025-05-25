@@ -172,32 +172,27 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown network path to a .sib file.
             /// </summary>
-            [IgnoreProperty]
             public string SibPath { get; set; }
 
             /// <summary>
             /// The name of this part's model.
             /// </summary>
             public string ModelName { get; set; }
-            [IndexProperty]
             public int ModelIndex { get; set; }
 
             /// <summary>
             /// The center of the part.
             /// </summary>
-            [PositionProperty]
             public Vector3 Position { get; set; }
 
             /// <summary>
             /// The rotation of the part.
             /// </summary>
-            [RotationProperty]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
             /// The scale of the part, which only really works right for map pieces.
             /// </summary>
-            [ScaleProperty]
             public Vector3 Scale { get; set; }
 
             /// <summary>
@@ -223,97 +218,81 @@ namespace SoulsFormats
             /// <summary>
             /// Used to identify the part in event scripts.
             /// </summary>
-            [EnemyProperty]
             public int EntityID { get; set; }
 
             /// <summary>
             /// Used to identify multiple parts with the same ID in event scripts.
             /// </summary>
-            [EnemyProperty]
             public int[] EntityGroups { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public sbyte UnkE04 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public sbyte UnkE05 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public sbyte LanternID { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public sbyte LodParamID { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public sbyte UnkE0E { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public bool PointLightShadowSource { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public bool ShadowSource { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public bool ShadowDest { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public bool IsShadowOnly { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public bool DrawByReflectCam { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public bool DrawOnlyReflectCam { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public bool UseDepthBiasFloat { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public bool DisablePointLightEffect { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public int UnkE18 { get; set; }
 
             private protected Part(string name)
@@ -777,20 +756,20 @@ namespace SoulsFormats
                 /// <summary>
                 /// Gparam IDs for this map piece.
                 /// </summary>
-                public GparamConfig Gparam { get; set; }
+                public GparamConfig GparamConfig { get; set; }
 
                 /// <summary>
                 /// Creates a MapPiece with default values.
                 /// </summary>
                 public MapPiece() : base("mXXXXXX_XXXX")
                 {
-                    Gparam = new GparamConfig();
+                    GparamConfig = new GparamConfig();
                 }
 
                 private protected override void DeepCopyTo(Part part)
                 {
                     var piece = (MapPiece)part;
-                    piece.Gparam = Gparam.DeepCopy();
+                    piece.GparamConfig = GparamConfig.DeepCopy();
                 }
 
                 internal MapPiece(BinaryReaderEx br) : base(br) { }
@@ -801,7 +780,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                private protected override void ReadGparamConfig(BinaryReaderEx br) => Gparam = new GparamConfig(br);
+                private protected override void ReadGparamConfig(BinaryReaderEx br) => GparamConfig = new GparamConfig(br);
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
@@ -809,7 +788,7 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                 }
 
-                private protected override void WriteGparamConfig(BinaryWriterEx bw) => Gparam.Write(bw);
+                private protected override void WriteGparamConfig(BinaryWriterEx bw) => GparamConfig.Write(bw);
             }
 
             /// <summary>
@@ -823,7 +802,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Gparam IDs for this object.
                 /// </summary>
-                public GparamConfig Gparam { get; set; }
+                public GparamConfig GparamConfig { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -831,7 +810,6 @@ namespace SoulsFormats
                 [MSBReference(ReferenceType = typeof(Collision))]
                 [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
-                [IndexProperty]
                 public int CollisionPartIndex { get; set; }
 
                 /// <summary>
@@ -857,7 +835,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Automatically playing animations; only the first is actually used, according to Pav.
                 /// </summary>
-                [MSBEnum(EnumType = "PartsPose_DS3")]
                 public short[] AnimIDs { get; private set; }
 
                 /// <summary>
@@ -867,7 +844,7 @@ namespace SoulsFormats
 
                 private protected ObjectBase() : base("oXXXXXX_XXXX")
                 {
-                    Gparam = new GparamConfig();
+                    GparamConfig = new GparamConfig();
                     AnimIDs = new short[4] { -1, -1, -1, -1 };
                     ModelSfxParamRelativeIDs = new short[4] { -1, -1, -1, -1 };
                 }
@@ -875,7 +852,7 @@ namespace SoulsFormats
                 private protected override void DeepCopyTo(Part part)
                 {
                     var obj = (ObjectBase)part;
-                    obj.Gparam = Gparam.DeepCopy();
+                    obj.GparamConfig = GparamConfig.DeepCopy();
                     obj.AnimIDs = (short[])AnimIDs.Clone();
                     obj.ModelSfxParamRelativeIDs = (short[])ModelSfxParamRelativeIDs.Clone();
                 }
@@ -895,7 +872,7 @@ namespace SoulsFormats
                     ModelSfxParamRelativeIDs = br.ReadInt16s(4);
                 }
 
-                private protected override void ReadGparamConfig(BinaryReaderEx br) => Gparam = new GparamConfig(br);
+                private protected override void ReadGparamConfig(BinaryReaderEx br) => GparamConfig = new GparamConfig(br);
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
@@ -910,7 +887,7 @@ namespace SoulsFormats
                     bw.WriteInt16s(ModelSfxParamRelativeIDs);
                 }
 
-                private protected override void WriteGparamConfig(BinaryWriterEx bw) => Gparam.Write(bw);
+                private protected override void WriteGparamConfig(BinaryWriterEx bw) => GparamConfig.Write(bw);
 
                 internal override void GetNames(MSB3 msb, Entries entries)
                 {
@@ -951,92 +928,76 @@ namespace SoulsFormats
                 /// <summary>
                 /// Gparam IDs for this enemy.
                 /// </summary>
-                public GparamConfig Gparam { get; set; }
+                public GparamConfig GparamConfig { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [EnemyProperty]
                 [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
-                [IndexProperty]
                 public int CollisionPartIndex { get; set; }
 
                 /// <summary>
                 /// Controls enemy AI.
                 /// </summary>
-                [EnemyProperty]
-                [MSBParamReference(ParamName = "NpcThinkParam")]
                 public int ThinkParamID { get; set; }
 
                 /// <summary>
                 /// Controls enemy stats.
                 /// </summary>
-                [EnemyProperty]
-                [MSBParamReference(ParamName = "NpcParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
                 /// Controls enemy speech.
                 /// </summary>
-                [EnemyProperty]
                 public int TalkID { get; set; }
 
                 /// <summary>
                 /// Controls enemy equipment.
                 /// </summary>
-                [EnemyProperty]
-                [MSBParamReference(ParamName = "CharaInitParam")]
                 public int CharaInitID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [EnemyProperty]
                 public byte PointMoveType { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [EnemyProperty]
                 public short PlatoonID { get; set; }
 
                 /// <summary>
                 /// Walk route followed by this enemy.
                 /// </summary>
-                [EnemyProperty]
                 [MSBReference(ReferenceType = typeof(Event.PatrolInfo))]
                 public string WalkRouteName { get; set; }
-                [IndexProperty]
                 public short WalkRouteIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [EnemyProperty]
                 public int BackupEventAnimID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT78 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public float UnkT84 { get; set; }
 
                 private protected EnemyBase() : base("cXXXX_XXXX")
                 {
-                    Gparam = new GparamConfig();
+                    GparamConfig = new GparamConfig();
                 }
 
                 private protected override void DeepCopyTo(Part part)
                 {
                     var enemy = (EnemyBase)part;
-                    enemy.Gparam = Gparam.DeepCopy();
+                    enemy.GparamConfig = GparamConfig.DeepCopy();
                 }
 
                 private protected EnemyBase(BinaryReaderEx br) : base(br) { }
@@ -1092,7 +1053,7 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                private protected override void ReadGparamConfig(BinaryReaderEx br) => Gparam = new GparamConfig(br);
+                private protected override void ReadGparamConfig(BinaryReaderEx br) => GparamConfig = new GparamConfig(br);
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
@@ -1145,7 +1106,7 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                 }
 
-                private protected override void WriteGparamConfig(BinaryWriterEx bw) => Gparam.Write(bw);
+                private protected override void WriteGparamConfig(BinaryWriterEx bw) => GparamConfig.Write(bw);
 
                 internal override void GetNames(MSB3 msb, Entries entries)
                 {
@@ -1215,69 +1176,6 @@ namespace SoulsFormats
             /// </summary>
             public class Collision : Part
             {
-                /// <summary>
-                /// HitFilterType
-                /// Unused as it is not exhaustive
-                /// </summary>
-                public enum HitFilterType : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    Standard_NoHighHit_NoFootIK = 0,
-                    Standard_NoHighHit_1 = 1,
-                    Standard_NoHighHit_2 = 2,
-                    Standard_NoHighHit_3 = 3,
-                    Standard_NoHighHit_4 = 4,
-                    Standard_NoHighHit_5 = 5,
-                    Standard_NoHighHit_6 = 6,
-                    Standard_NoHighHit_7 = 7,
-                    Standard = 8,
-                    BlockCameraOnly = 9,
-                    BlockEnemyOnly = 11,
-                    FallDeathCam = 13,
-                    LethalFall = 14,
-                    KillPlane = 15,
-                    Unk16 = 16,
-                    Unk17 = 17,
-                    BlockEnemyOnly_2 = 19,
-                    Unk20 = 20,
-                    Slide = 21,
-                    FallDamageImmunity = 22,
-                    Unk23 = 23,
-                    Unk24 = 24,
-                    Unk29 = 29,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
-                /// <summary>
-                /// Amount of reverb to apply to sounds.
-                /// </summary>
-                public enum SoundSpace : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    NoReverb = 0,
-                    SmallReverbA = 1,
-                    SmallReverbB = 2,
-                    MiddleReverbA = 3,
-                    MiddleReverbB = 4,
-                    LargeReverbA = 5,
-                    LargeReverbB = 6,
-                    ExtraLargeReverbA = 7,
-                    ExtraLargeReverbB = 8,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public enum MapVisiblity : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    Good = 0,
-                    Dark = 1,
-                    PitchDark = 2,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
                 private protected override PartsType Type => PartsType.Collision;
                 private protected override bool HasGparamConfig => true;
                 private protected override bool HasSceneGparamConfig => true;
@@ -1285,22 +1183,22 @@ namespace SoulsFormats
                 /// <summary>
                 /// Gparam IDs for this collision.
                 /// </summary>
-                public GparamConfig Gparam { get; set; }
+                public GparamConfig GparamConfig { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public SceneGparamConfig SceneGparam { get; set; }
+                public SceneGparamConfig SceneGparamConfig { get; set; }
 
                 /// <summary>
                 /// Sets collision behavior. Fall collision, death collision, enemy-only collision, etc.
                 /// </summary>
-                public byte HitFilterID { get; set; }
+                public byte HitFilterID { get; set; } = 8;
 
                 /// <summary>
                 /// Modifies sounds while the player is touching this collision.
                 /// </summary>
-                public SoundSpace SoundSpaceType { get; set; } = SoundSpace.NoReverb;
+                public byte SoundSpaceType { get; set; } = 0;
 
                 /// <summary>
                 /// Unknown.
@@ -1347,58 +1245,53 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
                 public string UnkHitName { get; set; }
-                [IndexProperty]
                 public int UnkHitIndex { get; set; }
 
                 /// <summary>
                 /// ID in MapMimicryEstablishmentParam.
                 /// </summary>
-                [MSBParamReference(ParamName = "MapMimicryEstablishmentParam")]
                 public int ChameleonParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT34 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT35 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT36 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public MapVisiblity MapVisType { get; set; } = MapVisiblity.Good;
+                public byte MapVisType { get; set; } = 0;
 
                 /// <summary>
                 /// Creates a Collision with default values.
                 /// </summary>
                 public Collision() : base("hXXXXXX")
                 {
-                    Gparam = new GparamConfig();
-                    SceneGparam = new SceneGparamConfig();
-                    SoundSpaceType = SoundSpace.NoReverb;
+                    GparamConfig = new GparamConfig();
+                    SceneGparamConfig = new SceneGparamConfig();
+                    SoundSpaceType = 0;
                     MapNameID = -1;
                     DisableStart = false;
                     DisableBonfireEntityID = -1;
-                    MapVisType = MapVisiblity.Good;
+                    MapVisType = 0;
                     PlayRegionID = -1;
                 }
 
                 private protected override void DeepCopyTo(Part part)
                 {
                     var collision = (Collision)part;
-                    collision.Gparam = Gparam.DeepCopy();
-                    collision.SceneGparam = SceneGparam.DeepCopy();
+                    collision.GparamConfig = GparamConfig.DeepCopy();
+                    collision.SceneGparamConfig = SceneGparamConfig.DeepCopy();
                 }
 
                 internal Collision(BinaryReaderEx br) : base(br) { }
@@ -1406,7 +1299,7 @@ namespace SoulsFormats
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
                     HitFilterID = br.ReadByte();
-                    SoundSpaceType = br.ReadEnum8<SoundSpace>();
+                    SoundSpaceType = br.ReadByte();
                     EnvLightMapSpotIndex = br.ReadInt16();
                     ReflectPlaneHeight = br.ReadSingle();
                     br.AssertInt32(0); // Navmesh Group (4)
@@ -1425,7 +1318,7 @@ namespace SoulsFormats
                     UnkT34 = br.ReadByte();
                     UnkT35 = br.ReadByte();
                     UnkT36 = br.ReadByte();
-                    MapVisType = br.ReadEnum8<MapVisiblity>();
+                    MapVisType = br.ReadByte();
                     PlayRegionID = br.ReadInt32();
                     LockCamID1 = br.ReadInt16();
                     LockCamID2 = br.ReadInt16();
@@ -1435,12 +1328,12 @@ namespace SoulsFormats
                     br.AssertInt32(0);
                 }
 
-                private protected override void ReadGparamConfig(BinaryReaderEx br) => Gparam = new GparamConfig(br);
-                private protected override void ReadSceneGparamConfig(BinaryReaderEx br) => SceneGparam = new SceneGparamConfig(br);
+                private protected override void ReadGparamConfig(BinaryReaderEx br) => GparamConfig = new GparamConfig(br);
+                private protected override void ReadSceneGparamConfig(BinaryReaderEx br) => SceneGparamConfig = new SceneGparamConfig(br);
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteByte(HitFilterID);
+                    bw.WriteByte((byte)HitFilterID);
                     bw.WriteByte((byte)SoundSpaceType);
                     bw.WriteInt16(EnvLightMapSpotIndex);
                     bw.WriteSingle(ReflectPlaneHeight);
@@ -1470,8 +1363,8 @@ namespace SoulsFormats
                     bw.WriteInt32(0);
                 }
 
-                private protected override void WriteGparamConfig(BinaryWriterEx bw) => Gparam.Write(bw);
-                private protected override void WriteSceneGparamConfig(BinaryWriterEx bw) => SceneGparam.Write(bw);
+                private protected override void WriteGparamConfig(BinaryWriterEx bw) => GparamConfig.Write(bw);
+                private protected override void WriteSceneGparamConfig(BinaryWriterEx bw) => SceneGparamConfig.Write(bw);
 
                 internal override void GetNames(MSB3 msb, Entries entries)
                 {
@@ -1530,7 +1423,6 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Collision))]
                 public string CollisionName { get; set; }
-                [IndexProperty]
                 public int CollisionIndex { get; set; }
 
                 /// <summary>

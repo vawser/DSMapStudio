@@ -82,6 +82,11 @@ namespace SoulsFormats
                 return $"{ReferenceID}";
             }
 
+            public Dummy Clone()
+            {
+                return (Dummy)MemberwiseClone();
+            }
+
             internal Dummy(BinaryReaderEx br, int version)
             {
                 Position = br.ReadVector3();

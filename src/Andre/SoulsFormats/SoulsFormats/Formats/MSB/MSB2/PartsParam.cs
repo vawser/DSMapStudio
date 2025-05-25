@@ -128,25 +128,21 @@ namespace SoulsFormats
             /// The name of the part's model, referencing ModelParam.
             /// </summary>
             public string ModelName { get; set; }
-            [IndexProperty]
             public short ModelIndex { get; set; }
 
             /// <summary>
             /// Location of the part.
             /// </summary>
-            [PositionProperty]
             public Vector3 Position { get; set; }
 
             /// <summary>
             /// Rotation of the part, in degrees.
             /// </summary>
-            [RotationProperty]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
             /// Scale of the part; only supported for map pieces and objects.
             /// </summary>
-            [ScaleProperty]
             public Vector3 Scale { get; set; }
 
             /// <summary>
@@ -157,25 +153,21 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
-            [IgnoreProperty]
             public int Unk44 { get; set; }
 
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
-            [IgnoreProperty]
             public int Unk48 { get; set; }
 
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
-            [IgnoreProperty]
             public int Unk4C { get; set; }
 
             /// <summary>
             /// Unknown; possibly nvm groups.
             /// </summary>
-            [IgnoreProperty]
             public int Unk50 { get; set; }
 
             /// <summary>
@@ -186,19 +178,16 @@ namespace SoulsFormats
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public int Unk64 { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public byte Unk6C { get; set; }
 
             /// <summary>
             /// Unknown.
             /// </summary>
-            [IgnoreProperty]
             public byte Unk6E { get; set; }
 
             private protected Part(string name)
@@ -338,13 +327,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public short UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT02 { get; set; }
 
                 /// <summary>
@@ -421,61 +408,41 @@ namespace SoulsFormats
             /// </summary>
             public class Collision : Part
             {
-                /// <summary>
-                /// Amount of reverb to apply to sounds.
-                /// </summary>
-                public enum SoundSpace : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    NoReverb = 0,
-                    SmallReverb = 1,
-                    MiddleReverb = 2,
-                    LargeReverb = 3,
-                    ExtraLargeReverb = 4
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
                 private protected override PartType Type => PartType.Collision;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT04 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT08 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT0C { get; set; }
 
                 /// <summary>
                 /// Modifies sounds while the player is touching this collision.
                 /// </summary>
-                public SoundSpace SoundSpaceType { get; set; } = SoundSpace.NoReverb;
+                public byte SoundSpaceType { get; set; } = 0;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT11 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT12 { get; set; }
 
                 /// <summary>
@@ -491,13 +458,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT15 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT17 { get; set; }
 
                 /// <summary>
@@ -508,25 +473,21 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [MSBParamReference(ParamName = "PlayerLight")]
                 public int PlayerLightParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>                
-                [MSBParamReference(ParamName = "PlayAreaParam")]
                 public int PlayAreaParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT26 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT27 { get; set; }
 
                 /// <summary>
@@ -538,7 +499,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT2C { get; set; }
 
                 /// <summary>
@@ -549,37 +509,31 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [MSBParamReference(ParamName = "CameraExFollowParam")]
                 public int CameraExFollowParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT35 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public short UnkT36 { get; set; }
 
                 /// <summary>
                 /// Shared identifier. Checked by ESD HitGroup commands.
                 /// </summary>
-                [MSBParamReference(ParamName = "HitGroupParam")]
                 public int HitGroupID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT40 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT44 { get; set; }
 
                 /// <summary>
@@ -595,7 +549,7 @@ namespace SoulsFormats
                     UnkT04 = br.ReadInt32();
                     UnkT08 = br.ReadInt32();
                     UnkT0C = br.ReadInt32();
-                    SoundSpaceType = br.ReadEnum8<SoundSpace>();
+                    SoundSpaceType = br.ReadByte();
                     UnkT11 = br.ReadByte();
                     UnkT12 = br.ReadByte();
                     FilterParamID = br.ReadByte();
@@ -676,25 +630,21 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown; possibly nvm groups.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT00 { get; set; }
 
                 /// <summary>
                 /// Unknown; possibly nvm groups.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT04 { get; set; }
 
                 /// <summary>
                 /// Unknown; possibly nvm groups.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT08 { get; set; }
 
                 /// <summary>
                 /// Unknown; possibly nvm groups.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT0C { get; set; }
 
                 /// <summary>
@@ -736,7 +686,6 @@ namespace SoulsFormats
                 [MSBReference(ReferenceType = typeof(Collision))]
                 [NoRenderGroupInheritence()]
                 public string CollisionName { get; set; }
-                [IndexProperty]
                 public int CollisionIndex { get; set; }
 
                 /// <summary>
@@ -747,13 +696,11 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public int UnkT08 { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [IgnoreProperty]
                 public byte UnkT0C { get; set; }
 
                 /// <summary>

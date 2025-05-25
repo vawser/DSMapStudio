@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
+using System.Xml.Serialization;
+using static SoulsFormats.MSBE.Region;
 
 namespace SoulsFormats
 {
@@ -21,6 +23,7 @@ namespace SoulsFormats
             Connection = 21,
             PatrolRoute22 = 22,
             BuddySummonPoint = 26,
+            DisableTumbleweed = 27,
             MufflingBox = 28,
             MufflingPortal = 29,
             SoundRegion = 30,
@@ -44,6 +47,8 @@ namespace SoulsFormats
             MapNameOverride = 51,
             MountJumpFall = 52,
             HorseRideOverride = 53,
+            LockedMountJump = 54,
+            LockedMountJumpFall = 55,
             Other = 0xFFFFFFFF,
         }
 
@@ -111,6 +116,11 @@ namespace SoulsFormats
             /// Unknown.
             /// </summary>
             public List<Region.BuddySummonPoint> BuddySummonPoints { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.DisableTumbleweed> DisableTumbleweeds { get; set; }
 
             /// <summary>
             /// Areas where sound is muffled.
@@ -229,6 +239,16 @@ namespace SoulsFormats
             public List<Region.HorseRideOverride> HorseRideOverrides { get; set; }
 
             /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.LockedMountJump> LockedMountJumps { get; set; }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public List<Region.LockedMountJumpFall> LockedMountJumpFalls { get; set; }
+
+            /// <summary>
             /// Most likely a dumping ground for unused regions.
             /// </summary>
             public List<Region.Other> Others { get; set; }
@@ -250,6 +270,7 @@ namespace SoulsFormats
                 Connections = new List<Region.Connection>();
                 PatrolRoute22s = new List<Region.PatrolRoute22>();
                 BuddySummonPoints = new List<Region.BuddySummonPoint>();
+                DisableTumbleweeds = new List<Region.DisableTumbleweed>();
                 MufflingBoxes = new List<Region.MufflingBox>();
                 MufflingPortals = new List<Region.MufflingPortal>();
                 SoundRegions = new List<Region.SoundRegion>();
@@ -273,6 +294,8 @@ namespace SoulsFormats
                 MapNameOverrides = new List<Region.MapNameOverride>();
                 MountJumpFalls = new List<Region.MountJumpFall>();
                 HorseRideOverrides = new List<Region.HorseRideOverride>();
+                LockedMountJumps = new List<Region.LockedMountJump>();
+                LockedMountJumpFalls = new List<Region.LockedMountJumpFall>();
                 Others = new List<Region.Other>();
             }
 
@@ -318,6 +341,9 @@ namespace SoulsFormats
                     case Region.MapNameOverride r: MapNameOverrides.Add(r); break;
                     case Region.MountJumpFall r: MountJumpFalls.Add(r); break;
                     case Region.HorseRideOverride r: HorseRideOverrides.Add(r); break;
+                    case Region.LockedMountJump r: LockedMountJumps.Add(r); break;
+                    case Region.LockedMountJumpFall r: LockedMountJumpFalls.Add(r); break;
+                    case Region.DisableTumbleweed r: DisableTumbleweeds.Add(r); break;
                     case Region.Other r: Others.Add(r); break;
 
                     default:
@@ -335,13 +361,13 @@ namespace SoulsFormats
                 return SFUtil.ConcatAll<Region>(
                     InvasionPoints, EnvironmentMapPoints, Sounds, SFX, WindSFX,
                     SpawnPoints, Messages, EnvironmentMapEffectBoxes, WindAreas,
-                    Connections, PatrolRoute22s, BuddySummonPoints, MufflingBoxes,
+                    Connections, PatrolRoute22s, BuddySummonPoints, DisableTumbleweeds, MufflingBoxes,
                     MufflingPortals, SoundRegions, MufflingPlanes, PatrolRoutes,
                     MapPoints, WeatherOverrides, AutoDrawGroupPoints, GroupDefeatRewards,
                     MapPointDiscoveryOverrides, MapPointParticipationOverrides, Hitsets,
                     FastTravelRestriction, WeatherCreateAssetPoints, PlayAreas, EnvironmentMapOutputs,
                     MountJumps, Dummies, FallPreventionRemovals, NavmeshCuttings, MapNameOverrides,
-                    MountJumpFalls, HorseRideOverrides, Others);
+                    MountJumpFalls, HorseRideOverrides, LockedMountJumps, LockedMountJumpFalls, Others);
             }
             IReadOnlyList<IMsbRegion> IMsbParam<IMsbRegion>.GetEntries() => GetEntries();
 
@@ -385,6 +411,9 @@ namespace SoulsFormats
 
                     case RegionType.BuddySummonPoint:
                         return BuddySummonPoints.EchoAdd(new Region.BuddySummonPoint(br));
+
+                    case RegionType.DisableTumbleweed:
+                        return DisableTumbleweeds.EchoAdd(new Region.DisableTumbleweed(br));
 
                     case RegionType.MufflingBox:
                         return MufflingBoxes.EchoAdd(new Region.MufflingBox(br));
@@ -455,6 +484,12 @@ namespace SoulsFormats
                     case RegionType.HorseRideOverride:
                         return HorseRideOverrides.EchoAdd(new Region.HorseRideOverride(br));
 
+                    case RegionType.LockedMountJump:
+                        return LockedMountJumps.EchoAdd(new Region.LockedMountJump(br));
+
+                    case RegionType.LockedMountJumpFall:
+                        return LockedMountJumpFalls.EchoAdd(new Region.LockedMountJumpFall(br));
+
                     case RegionType.Other:
                         return Others.EchoAdd(new Region.Other(br));
 
@@ -480,13 +515,11 @@ namespace SoulsFormats
             /// <summary>
             /// The location of the region.
             /// </summary>
-            [PositionProperty]
             public Vector3 Position { get; set; }
 
             /// <summary>
             /// The rotiation of the region, in degrees.
             /// </summary>
-            [RotationProperty]
             public Vector3 Rotation { get; set; }
 
             /// <summary>
@@ -539,8 +572,7 @@ namespace SoulsFormats
             /// </summary>
             [MSBReference(ReferenceType = typeof(Part))]
             public string ActivationPartName { get; set; }
-            [IndexProperty]
-            public int ActivationPartIndex { get; set; }
+            private int ActivationPartIndex { get; set; }
 
             /// <summary>
             /// Identifies the region in event scripts.
@@ -843,7 +875,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte[] UnkMapID { get; private set; }
+                public byte[] UnkMapID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -951,8 +983,8 @@ namespace SoulsFormats
                 /// References to other regions used to build a composite shape.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
-                public string[] ChildRegionNames { get; private set; }
-                public int[] ChildRegionIndices;
+                public string[] ChildRegionNames { get; set; }
+                private int[] ChildRegionIndices { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1066,8 +1098,7 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string WindAreaName { get; set; }
-                [IndexProperty]
-                public int WindAreaIndex { get; set; }
+                private int WindAreaIndex { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1166,7 +1197,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT08 { get; set; }
+                public int ItemLotParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1186,7 +1217,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// NpcParam ID to use when rendering a character with the message.
                 /// </summary>
-                [MSBParamReference(ParamName = "NPCParam")]
                 public int NPCParamID { get; set; }
 
                 /// <summary>
@@ -1215,7 +1245,7 @@ namespace SoulsFormats
                     MessageID = br.ReadInt16();
                     UnkT02 = br.ReadInt16();
                     Hidden = br.AssertInt32([0, 1]) == 1;
-                    UnkT08 = br.ReadInt32();
+                    ItemLotParamID = br.ReadInt32();
                     MessageSfxID = br.ReadInt32();
                     EnableEventFlagID = br.ReadUInt32();
                     CharacterModelName = br.ReadInt32();
@@ -1229,7 +1259,7 @@ namespace SoulsFormats
                     bw.WriteInt16(MessageID);
                     bw.WriteInt16(UnkT02);
                     bw.WriteInt32(Hidden ? 1 : 0);
-                    bw.WriteInt32(UnkT08);
+                    bw.WriteInt32(ItemLotParamID);
                     bw.WriteInt32(MessageSfxID);
                     bw.WriteUInt32(EnableEventFlagID);
                     bw.WriteInt32(CharacterModelName);
@@ -1250,22 +1280,22 @@ namespace SoulsFormats
                 /// <summary>
                 /// Distance from camera required before enabling envmap. 0 = always enabled.
                 /// </summary>
-                public float EnableDist { get; set; }
+                public float DisplayDistance { get; set; }
 
                 /// <summary>
                 /// Distance it takes for an envmap to fully transition into view.
                 /// </summary>
-                public float TransitionDist { get; set; }
+                public float FadeDistance { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte UnkT08 { get; set; }
+                public byte ParallaxCorrection { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public byte UnkT09 { get; set; }
+                public byte Priority { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1273,14 +1303,14 @@ namespace SoulsFormats
                 public short UnkT0A { get; set; }
 
                 /// <summary>
-                /// Strength of specular light in region.
+                /// Strength of ambient fiffuse light .
                 /// </summary>
-                public float SpecularLightMult { get; set; }
+                public float AmbientDiffuseIntensity { get; set; }
 
                 /// <summary>
-                /// Strength of direct light emitting from EnvironmentMapPoint.
+                /// Strength of ambient specular light.
                 /// </summary>
-                public float PointLightMult { get; set; }
+                public float AmbientSpecularIntensity { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1301,6 +1331,11 @@ namespace SoulsFormats
                 /// Unknown.
                 /// </summary>
                 public short UnkT30 { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public bool UnkT32 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1326,19 +1361,19 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    EnableDist = br.ReadSingle();
-                    TransitionDist = br.ReadSingle();
-                    UnkT08 = br.ReadByte();
-                    UnkT09 = br.ReadByte();
+                    DisplayDistance = br.ReadSingle();
+                    FadeDistance = br.ReadSingle();
+                    ParallaxCorrection = br.ReadByte();
+                    Priority = br.ReadByte();
                     UnkT0A = br.ReadInt16();
                     br.AssertPattern(0x18, 0x00);
-                    SpecularLightMult = br.ReadSingle();
-                    PointLightMult = br.ReadSingle();
+                    AmbientDiffuseIntensity = br.ReadSingle();
+                    AmbientSpecularIntensity = br.ReadSingle();
                     UnkT2C = br.ReadInt16();
                     IsModifyLight = br.ReadBoolean();
                     UnkT2F = br.ReadBoolean();
                     UnkT30 = br.ReadInt16();
-                    br.AssertByte(0);
+                    UnkT32 = br.ReadBoolean();
                     UnkT33 = br.ReadBoolean();
                     UnkT34 = br.ReadInt16();
                     UnkT36 = br.ReadInt16();
@@ -1347,19 +1382,19 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteSingle(EnableDist);
-                    bw.WriteSingle(TransitionDist);
-                    bw.WriteByte(UnkT08);
-                    bw.WriteByte(UnkT09);
+                    bw.WriteSingle(DisplayDistance);
+                    bw.WriteSingle(FadeDistance);
+                    bw.WriteByte(ParallaxCorrection);
+                    bw.WriteByte(Priority);
                     bw.WriteInt16(UnkT0A);
                     bw.WritePattern(0x18, 0x00);
-                    bw.WriteSingle(SpecularLightMult);
-                    bw.WriteSingle(PointLightMult);
+                    bw.WriteSingle(AmbientDiffuseIntensity);
+                    bw.WriteSingle(AmbientSpecularIntensity);
                     bw.WriteInt16(UnkT2C);
                     bw.WriteBoolean(IsModifyLight);
                     bw.WriteBoolean(UnkT2F);
                     bw.WriteInt16(UnkT30);
-                    bw.WriteByte(0);
+                    bw.WriteBoolean(UnkT32);
                     bw.WriteBoolean(UnkT33);
                     bw.WriteInt16(UnkT34);
                     bw.WriteInt16(UnkT36);
@@ -1394,7 +1429,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Map ID this connection targets.
                 /// </summary>
-                public sbyte[] TargetMapID { get; private set; }
+                public sbyte[] TargetMapID { get; set; }
 
                 /// <summary>
                 /// Creates a Connection with default values.
@@ -1668,7 +1703,8 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT04 { get; set; }
+                [MSBParamReference(ParamName = "WwiseValueToStrParam_EnvPlaceType")]
+                public int WwiseEnvPlaceTypeID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1698,7 +1734,7 @@ namespace SoulsFormats
                     UnkT01 = br.ReadByte();
                     UnkT02 = br.ReadByte();
                     UnkT03 = br.ReadByte();
-                    UnkT04 = br.ReadInt32();
+                    WwiseEnvPlaceTypeID = br.ReadInt32();
                     UnkT08 = br.ReadInt16();
                     UnkT0A = br.ReadInt16();
                     UnkT0C = br.ReadByte();
@@ -1711,7 +1747,7 @@ namespace SoulsFormats
                     bw.WriteByte(UnkT01);
                     bw.WriteByte(UnkT02);
                     bw.WriteByte(UnkT03);
-                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(WwiseEnvPlaceTypeID);
                     bw.WriteInt16(UnkT08);
                     bw.WriteInt16(UnkT0A);
                     bw.WriteByte(UnkT0C);
@@ -1777,7 +1813,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Determines which WorldMapPointParam to use.
                 /// </summary>
-                [MSBParamReference(ParamName = "WorldMapPointParam")]
                 public int WorldMapPointParamID { get; set; }
 
                 /// <summary>
@@ -1794,6 +1829,11 @@ namespace SoulsFormats
                 /// Unknown.
                 /// </summary>
                 public float UnkT0C { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT10 { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1818,7 +1858,7 @@ namespace SoulsFormats
                     UnkT04 = br.ReadInt32();
                     UnkT08 = br.ReadSingle();
                     UnkT0C = br.ReadSingle();
-                    br.AssertInt32(-1);
+                    UnkT10 = br.ReadInt32();
                     UnkT14 = br.ReadSingle();
                     UnkT18 = br.ReadSingle();
                     br.AssertInt32(0);
@@ -1830,7 +1870,7 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT04);
                     bw.WriteSingle(UnkT08);
                     bw.WriteSingle(UnkT0C);
-                    bw.WriteInt32(-1);
+                    bw.WriteInt32(UnkT10);
                     bw.WriteSingle(UnkT14);
                     bw.WriteSingle(UnkT18);
                     bw.WriteInt32(0);
@@ -1848,8 +1888,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Determines which WeatherLotParam ID to use.
                 /// </summary>
-                [MSBParamReference(ParamName = "WeatherLotParam")]
                 public int WeatherLotParamID { get; set; }
+
+                public sbyte UnkT08 { get; set; }
+                public sbyte UnkT09 { get; set; }
+                public sbyte UnkT0A { get; set; }
+                public sbyte UnkT0B { get; set; }
 
                 /// <summary>
                 /// Creates a WeatherOverride with default values.
@@ -1862,7 +1906,10 @@ namespace SoulsFormats
                 {
                     WeatherLotParamID = br.ReadInt32();
                     br.AssertInt32(-1);
-                    br.AssertInt32(0);
+                    UnkT08 = br.ReadSByte();
+                    UnkT09 = br.ReadSByte();
+                    UnkT0A = br.ReadSByte();
+                    UnkT0B = br.ReadSByte();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1874,7 +1921,10 @@ namespace SoulsFormats
                 {
                     bw.WriteInt32(WeatherLotParamID);
                     bw.WriteInt32(-1);
-                    bw.WriteInt32(0);
+                    bw.WriteSByte(UnkT08);
+                    bw.WriteSByte(UnkT09);
+                    bw.WriteSByte(UnkT0A);
+                    bw.WriteSByte(UnkT0B);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -1955,8 +2005,8 @@ namespace SoulsFormats
                 /// References to enemies to defeat to receive the reward.
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
-                public string[] PartNames { get; private set; }
-                public int[] PartIndices;
+                public string[] PartNames { get; set; }
+                private int[] PartIndices { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -1971,8 +2021,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                [MSBParamReference(ParamName = "MPEstusFlaskRecoveryParam")]
-                [MSBParamReference(ParamName = "HPEstusFlaskRecoveryParam")]
                 public int EstusFlaskRecoveryID { get; set; }
 
                 /// <summary>
@@ -2181,7 +2229,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public int PlayRegionID { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -2197,13 +2245,13 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    PlayRegionID = br.ReadInt32();
                     UnkT04 = br.ReadInt32();
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(PlayRegionID);
                     bw.WriteInt32(UnkT04);
                 }
             }
@@ -2417,43 +2465,146 @@ namespace SoulsFormats
             /// </summary>
             public class HorseRideOverride : Region
             {
-                /// <summary>
-                /// OverrideType
-                /// </summary>
-                public enum HorseRideOverrideType : uint
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    PreventRiding = 1,
-                    AllowRiding = 2,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
                 private protected override RegionType Type => RegionType.HorseRideOverride;
                 private protected override bool HasTypeData => true;
 
                 /// <summary>
                 /// 1 = Forbid riding torrent, 2 = Permit riding torrent
                 /// </summary>
-                public HorseRideOverrideType OverrideType { get; set; } = HorseRideOverrideType.PreventRiding;
+                public uint OverrideType { get; set; } = 1;
 
                 /// <summary>
                 /// Creates a HorseRideOverride with default values.
                 /// </summary>
                 public HorseRideOverride() : base($"{nameof(Region)}: {nameof(HorseRideOverride)}") 
                 {
-                    OverrideType = HorseRideOverrideType.PreventRiding;
+                    OverrideType = 1;
                 }
 
                 internal HorseRideOverride(BinaryReaderEx br) : base(br) { }
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    OverrideType = br.ReadEnum32<HorseRideOverrideType>();
+                    OverrideType = br.ReadUInt32();
                     br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
                     bw.WriteUInt32((uint)OverrideType);
+                    bw.WriteInt32(0);
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class LockedMountJump : Region
+            {
+                private protected override RegionType Type => RegionType.LockedMountJump;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Height the player will move upwards when activating a MountJump.
+                /// </summary>
+                public float JumpHeight { get; set; }
+
+                /// <summary>
+                /// Unknown.
+                /// </summary>
+                public int UnkT04 { get; set; }
+
+                /// <summary>
+                /// Probably event flag to enable.
+                /// </summary>
+                public int EnableEventFlagID { get; set; }
+
+                /// <summary>
+                /// Creates a LockedMountJump with default values.
+                /// </summary>
+                public LockedMountJump() : base($"{nameof(Region)}: {nameof(LockedMountJump)}") { }
+
+                internal LockedMountJump(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                    JumpHeight = br.ReadSingle();
+                    UnkT04 = br.ReadInt32();
+                    EnableEventFlagID = br.ReadInt32();
+                    br.AssertInt32(-1);
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                    bw.WriteSingle(JumpHeight);
+                    bw.WriteInt32(UnkT04);
+                    bw.WriteInt32(EnableEventFlagID);
+                    bw.WriteInt32(-1);
+                }
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class LockedMountJumpFall : Region
+            {
+                private protected override RegionType Type => RegionType.LockedMountJumpFall;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Probably event flag to enable.
+                /// </summary>
+                public int EnableEventFlagID { get; set; }
+
+                /// <summary>
+                /// Creates a LockedMountJumpFall with default values.
+                /// </summary>
+                public LockedMountJumpFall() : base($"{nameof(Region)}: {nameof(LockedMountJumpFall)}") { }
+
+                internal LockedMountJumpFall(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                    br.AssertInt32(-1);
+                    br.AssertInt32(0);
+                    EnableEventFlagID = br.ReadInt32();
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                    bw.WriteInt32(-1);
+                    bw.WriteInt32(0);
+                    bw.WriteInt32(EnableEventFlagID);
+                }
+
+            }
+
+            /// <summary>
+            /// Unknown.
+            /// </summary>
+            public class DisableTumbleweed : Region
+            {
+                private protected override RegionType Type => RegionType.DisableTumbleweed;
+                private protected override bool HasTypeData => true;
+
+                /// <summary>
+                /// Creates a DisableTumbleweed with default values.
+                /// </summary>
+                public DisableTumbleweed() : base($"{nameof(Region)}: {nameof(DisableTumbleweed)}") { }
+
+                internal DisableTumbleweed(BinaryReaderEx br) : base(br) { }
+
+                private protected override void ReadTypeData(BinaryReaderEx br)
+                {
+                    br.AssertInt32(-1);
+                    br.AssertInt32(0);
+                    br.AssertInt32(0);
+                }
+
+                private protected override void WriteTypeData(BinaryWriterEx bw)
+                {
+                    bw.WriteInt32(-1);
+                    bw.WriteInt32(0);
                     bw.WriteInt32(0);
                 }
             }

@@ -563,7 +563,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT38 { get; set; }
+                public int ActionButtonParamID { get; set; }
 
                 /// <summary>
                 /// Unknown; possible the pickup anim.
@@ -588,7 +588,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT44 { get; set; }
+                public int EnableSecondaryItemlot { get; set; }
 
                 /// <summary>
                 /// Unknown.
@@ -618,12 +618,12 @@ namespace SoulsFormats
                     UnkT2C = br.ReadInt32();
                     UnkT30 = br.ReadInt32();
                     UnkT34 = br.ReadInt32();
-                    UnkT38 = br.ReadInt32();
+                    ActionButtonParamID = br.ReadInt32();
                     UnkT3C = br.ReadInt32();
                     InChest = br.ReadBoolean();
                     StartDisabled = br.ReadBoolean();
                     UnkT42 = br.ReadInt16();
-                    UnkT44 = br.ReadInt32();
+                    EnableSecondaryItemlot = br.ReadInt32();
                     UnkT48 = br.ReadInt32();
                     br.AssertInt32(0);
                 }
@@ -644,12 +644,12 @@ namespace SoulsFormats
                     bw.WriteInt32(UnkT2C);
                     bw.WriteInt32(UnkT30);
                     bw.WriteInt32(UnkT34);
-                    bw.WriteInt32(UnkT38);
+                    bw.WriteInt32(ActionButtonParamID);
                     bw.WriteInt32(UnkT3C);
                     bw.WriteBoolean(InChest);
                     bw.WriteBoolean(StartDisabled);
                     bw.WriteInt16(UnkT42);
-                    bw.WriteInt32(UnkT44);
+                    bw.WriteInt32(EnableSecondaryItemlot);
                     bw.WriteInt32(UnkT48);
                     bw.WriteInt32(0);
                 }
@@ -869,18 +869,6 @@ namespace SoulsFormats
             /// </summary>
             public class ObjAct : Event
             {
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public enum StateType : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    Default = 0,
-                    Door = 1,
-                    Loop = 2,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
                 private protected override EventType Type => EventType.ObjAct;
                 private protected override bool HasTypeData => true;
 
@@ -904,7 +892,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public StateType ObjActState { get; set; } = StateType.Default;
+                public byte ObjActState { get; set; } = 0;
 
                 /// <summary>
                 /// Unknown, probably enables or disables the ObjAct.
@@ -928,7 +916,7 @@ namespace SoulsFormats
                     ObjActEntityID = br.ReadInt32();
                     ObjActPartIndex = br.ReadInt32();
                     ObjActParamID = br.ReadInt32();
-                    ObjActState = br.ReadEnum8<StateType>();
+                    ObjActState = br.ReadByte();
                     br.AssertByte(0);
                     br.AssertInt16(0);
                     EventFlagID = br.ReadInt32();
@@ -1022,7 +1010,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Position of the map.
                 /// </summary>
-                [PositionProperty]
                 public Vector3 Position { get; set; }
 
                 /// <summary>
@@ -1243,7 +1230,7 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown; probably some kind of route type.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public int PatrolType { get; set; }
 
                 /// <summary>
                 /// List of points in the route.
@@ -1270,7 +1257,7 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
+                    PatrolType = br.ReadInt32();
                     br.AssertInt32(0);
                     br.AssertInt32(0);
                     br.AssertInt32(0);
@@ -1279,7 +1266,7 @@ namespace SoulsFormats
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
+                    bw.WriteInt32(PatrolType);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
                     bw.WriteInt32(0);
@@ -1418,27 +1405,35 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public int UnkT00 { get; set; }
+                public int PlayRegionID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public short UnkT04 { get; set; }
+                [MSBReference(ReferenceType = typeof(Region))]
+                public string SpawnRegionName_00 { get; set; }
+                private short SpawnRegionID_00;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public short UnkT06 { get; set; }
+                [MSBReference(ReferenceType = typeof(Region))]
+                public string SpawnRegionName_01 { get; set; }
+                private short SpawnRegionID_01;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public short UnkT08 { get; set; }
+                [MSBReference(ReferenceType = typeof(Region))]
+                public string SpawnRegionName_02 { get; set; }
+                private short SpawnRegionID_02;
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public short UnkT0A { get; set; }
+                [MSBReference(ReferenceType = typeof(Region))]
+                public string SpawnRegionName_03 { get; set; }
+                private short SpawnRegionID_03;
 
                 /// <summary>
                 /// Creates a MultiSummon with default values.
@@ -1449,22 +1444,40 @@ namespace SoulsFormats
 
                 private protected override void ReadTypeData(BinaryReaderEx br)
                 {
-                    UnkT00 = br.ReadInt32();
-                    UnkT04 = br.ReadInt16();
-                    UnkT06 = br.ReadInt16();
-                    UnkT08 = br.ReadInt16();
-                    UnkT0A = br.ReadInt16();
+                    PlayRegionID = br.ReadInt32();
+                    SpawnRegionID_00 = br.ReadInt16();
+                    SpawnRegionID_01 = br.ReadInt16();
+                    SpawnRegionID_02 = br.ReadInt16();
+                    SpawnRegionID_03 = br.ReadInt16();
                     br.AssertInt32(0);
                 }
 
                 private protected override void WriteTypeData(BinaryWriterEx bw)
                 {
-                    bw.WriteInt32(UnkT00);
-                    bw.WriteInt16(UnkT04);
-                    bw.WriteInt16(UnkT06);
-                    bw.WriteInt16(UnkT08);
-                    bw.WriteInt16(UnkT0A);
+                    bw.WriteInt32(PlayRegionID);
+                    bw.WriteInt16(SpawnRegionID_00);
+                    bw.WriteInt16(SpawnRegionID_01);
+                    bw.WriteInt16(SpawnRegionID_02);
+                    bw.WriteInt16(SpawnRegionID_03);
                     bw.WriteInt32(0);
+                }
+
+                internal override void GetNames(MSBB msb, Entries entries)
+                {
+                    base.GetNames(msb, entries);
+                    SpawnRegionName_00 = MSB.FindName(entries.Regions, SpawnRegionID_00);
+                    SpawnRegionName_01 = MSB.FindName(entries.Regions, SpawnRegionID_01);
+                    SpawnRegionName_02 = MSB.FindName(entries.Regions, SpawnRegionID_02);
+                    SpawnRegionName_03 = MSB.FindName(entries.Regions, SpawnRegionID_03);
+                }
+
+                internal override void GetIndices(MSBB msb, Entries entries)
+                {
+                    base.GetIndices(msb, entries);
+                    SpawnRegionID_00 = (short)MSB.FindIndex(this, entries.Regions, SpawnRegionName_00);
+                    SpawnRegionID_01 = (short)MSB.FindIndex(this, entries.Regions, SpawnRegionName_01);
+                    SpawnRegionID_02 = (short)MSB.FindIndex(this, entries.Regions, SpawnRegionName_02);
+                    SpawnRegionID_03 = (short)MSB.FindIndex(this, entries.Regions, SpawnRegionName_03);
                 }
             }
 

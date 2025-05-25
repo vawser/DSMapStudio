@@ -223,7 +223,6 @@ namespace SoulsFormats
             /// </summary>
             [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
-            [IndexProperty]
             public int PartIndex { get; set; }
 
             /// <summary>
@@ -231,7 +230,6 @@ namespace SoulsFormats
             /// </summary>
             [MSBReference(ReferenceType = typeof(Region))]
             public string RegionName { get; set; }
-            [IndexProperty]
             public int RegionIndex { get; set; }
 
             /// <summary>
@@ -555,13 +553,11 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string TreasurePartName { get; set; }
-                [IndexProperty]
                 public int TreasurePartIndex { get; set; }
 
                 /// <summary>
                 /// Item lots to be granted when the treasure is picked up; only the first appears to be functional.
                 /// </summary>
-                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int[] ItemLots { get; private set; }
 
                 /// <summary>
@@ -684,7 +680,6 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string[] SpawnPointNames { get; set; }
-                [IndexProperty]
                 public int[] SpawnPointIndices { get; set; }
 
                 /// <summary>
@@ -692,7 +687,6 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string[] SpawnPartNames { get; set; }
-                [IndexProperty]
                 public int[] SpawnPartIndices { get; set; }
 
                 /// <summary>
@@ -813,18 +807,6 @@ namespace SoulsFormats
             /// </summary>
             public class ObjAct : Event
             {
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public enum StateType : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    Default = 0,
-                    Door = 1,
-                    Loop = 2,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
                 private protected override EventType Type => EventType.ObjAct;
 
                 /// <summary>
@@ -837,19 +819,17 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
-                [IndexProperty]
                 public int ObjActPartIndex { get; set; }
 
                 /// <summary>
                 /// ID in ObjActParam that configures the ObjAct.
                 /// </summary>
-                [MSBParamReference(ParamName = "ObjActParam")]
                 public short ObjActParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public StateType ObjActState { get; set; } = StateType.Default;
+                public byte ObjActState { get; set; } = 0;
 
                 /// <summary>
                 /// Unknown, probably enables or disables the ObjAct.
@@ -873,7 +853,7 @@ namespace SoulsFormats
                     ObjActEntityID = br.ReadInt32();
                     ObjActPartIndex = br.ReadInt32();
                     ObjActParamID = br.ReadInt16();
-                    ObjActState = br.ReadEnum8<StateType>();
+                    ObjActState = br.ReadByte();
                     br.AssertByte(0);
                     EventFlagID = br.ReadInt32();
                 }
@@ -883,7 +863,7 @@ namespace SoulsFormats
                     bw.WriteInt32(ObjActEntityID);
                     bw.WriteInt32(ObjActPartIndex);
                     bw.WriteInt16(ObjActParamID);
-                    bw.WriteByte((byte)ObjActState);
+                    bw.WriteByte(ObjActState);
                     bw.WriteByte(0);
                     bw.WriteInt32(EventFlagID);
                 }
@@ -913,7 +893,6 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string SpawnPointName { get; set; }
-                [IndexProperty]
                 public int SpawnPointIndex { get; set; }
 
                 /// <summary>
@@ -962,7 +941,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Position of the map.
                 /// </summary>
-                [PositionProperty]
                 public Vector3 Position { get; set; }
 
                 /// <summary>
@@ -1002,7 +980,6 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Region))]
                 public string NavmeshRegionName { get; set; }
-                [IndexProperty]
                 public int NavmeshRegionIndex { get; set; }
 
                 /// <summary>

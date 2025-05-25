@@ -10,7 +10,7 @@ namespace SoulsFormats
         /// <summary>
         /// Joints available for vertices and dummy points to be attached to.
         /// </summary>
-        IReadOnlyList<FLVER.Bone> Bones { get; }
+        IReadOnlyList<FLVER.Node> Nodes { get; }
 
         /// <summary>
         /// Dummy points used to determine hitboxes, particle effects, etc.
@@ -26,6 +26,11 @@ namespace SoulsFormats
         /// Actual geometry of the model.
         /// </summary>
         IReadOnlyList<IFlverMesh> Meshes { get; }
+
+        /// <summary>
+        /// Checks if the model is a Speedtree model
+        /// </summary>
+        bool IsSpeedtree();
     }
 
     /// <summary>

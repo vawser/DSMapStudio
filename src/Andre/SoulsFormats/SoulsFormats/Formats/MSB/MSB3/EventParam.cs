@@ -183,7 +183,6 @@ namespace SoulsFormats
             /// </summary>
             [MSBReference(ReferenceType = typeof(Part))]
             public string PartName { get; set; }
-            [IndexProperty]
             public int PartIndex { get; set; }
 
             /// <summary>
@@ -191,7 +190,6 @@ namespace SoulsFormats
             /// </summary>
             [MSBReference(ReferenceType = typeof(Region))]
             public string PointName { get; set; }
-            [IndexProperty]
             public int PointIndex { get; set; }
 
             /// <summary>
@@ -313,19 +311,16 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string TreasurePartName { get; set; }
-                [IndexProperty]
                 public int TreasurePartIndex { get; set; }
 
                 /// <summary>
                 /// First item lot given by this treasure.
                 /// </summary>
-                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot1 { get; set; }
 
                 /// <summary>
                 /// Second item lot given by this treasure; rarely used.
                 /// </summary>
-                [MSBParamReference(ParamName = "ItemLotParam")]
                 public int ItemLot2 { get; set; }
 
                 /// <summary>
@@ -336,7 +331,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// If not -1, uses an entry from ActionButtonParam for the pickup prompt.
                 /// </summary>
-                [MSBParamReference(ParamName = "ActionButtonParam")]
                 public int ActionButtonParamID { get; set; }
 
                 /// <summary>
@@ -620,20 +614,6 @@ namespace SoulsFormats
             /// </summary>
             public class ObjAct : Event
             {
-                /// <summary>
-                /// Unknown.
-                /// </summary>
-                public enum ObjActState : byte
-                {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    OneState = 0,
-                    DoorState = 1,
-                    OneLoopState = 2,
-                    OneLoopState2 = 3,
-                    DoorState2 = 4,
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
                 private protected override EventType Type => EventType.ObjAct;
 
                 /// <summary>
@@ -647,19 +627,17 @@ namespace SoulsFormats
                 /// </summary>
                 [MSBReference(ReferenceType = typeof(Part))]
                 public string ObjActPartName { get; set; }
-                [IndexProperty]
                 public int ObjActPartIndex { get; set; }
 
                 /// <summary>
                 /// ID in ObjActParam that configures this ObjAct.
                 /// </summary>
-                [MSBParamReference(ParamName = "ObjActParam")]
                 public int ObjActParamID { get; set; }
 
                 /// <summary>
                 /// Unknown.
                 /// </summary>
-                public ObjActState ObjActStateType { get; set; } = ObjActState.OneState;
+                public byte ObjActStateType { get; set; } = 0;
 
                 /// <summary>
                 /// Unknown.
@@ -672,7 +650,7 @@ namespace SoulsFormats
                 public ObjAct() : base($"{nameof(Event)}: {nameof(ObjAct)}")
                 {
                     ObjActEntityID = -1;
-                    ObjActStateType = ObjActState.OneState;
+                    ObjActStateType = 0;
                 }
 
                 internal ObjAct(BinaryReaderEx br) : base(br) { }
@@ -683,7 +661,7 @@ namespace SoulsFormats
                     ObjActPartIndex = br.ReadInt32();
                     ObjActParamID = br.ReadInt32();
 
-                    ObjActStateType = br.ReadEnum8<ObjActState>();
+                    ObjActStateType = br.ReadByte();
                     br.AssertByte(0);
                     br.AssertByte(0);
                     br.AssertByte(0);
@@ -734,7 +712,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Position of the map offset.
                 /// </summary>
-                [PositionProperty]
                 public Vector3 Position { get; set; }
 
                 /// <summary>
@@ -767,30 +744,6 @@ namespace SoulsFormats
             /// </summary>
             public class PseudoMultiplayer : Event
             {
-                /// <summary>
-                /// Determines character type (which determines victory conditions) the player will use in pseudo world.
-                /// </summary>
-                public enum PseudoPlayerChrType : byte
-                {
-                    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    WhitePhantom = 0,
-                    RedPhantom = 1
-                    #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-                /// <summary>
-                /// Determines which set of FMG entries to use in pseudo world for arrival/failure/success messages.
-                /// </summary>
-                public enum PseudoMessageSetType : byte
-                {
-                    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-                    Default = 0,
-                    Sirris_Creighton = 1,
-                    Sirris_Hodrick = 2,
-                    Leonhard = 3,
-                    Anri = 4
-                    #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-                }
-
                 private protected override EventType Type => EventType.PseudoMultiplayer;
 
                 /// <summary>
@@ -812,7 +765,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Ceremony Param ID to use.
                 /// </summary>
-                [MSBParamReference(ParamName = "Ceremony")]
                 public int CeremonyParamID { get; set; }
 
                 /// <summary>
@@ -823,12 +775,12 @@ namespace SoulsFormats
                 /// <summary>
                 /// Player type to use while in pseudo world. 
                 /// </summary>
-                public PseudoPlayerChrType PlayerChrType { get; set; } = PseudoPlayerChrType.WhitePhantom;
+                public byte PlayerChrType { get; set; } = 0;
 
                 /// <summary>
                 /// Determines which set of FMG entries to use in pseudo world.
                 /// </summary>
-                public PseudoMessageSetType MessageSetType { get; set; } = PseudoMessageSetType.Default;
+                public byte MessageSetType { get; set; } = 0;
 
                 /// <summary>
                 /// ID of FMG entry to display when trying to join pseudo world.
@@ -856,8 +808,8 @@ namespace SoulsFormats
                     ActivateGoodsID = br.ReadInt32();
                     CeremonyParamID = br.ReadInt32();
                     SpawnRegionEntityID = br.ReadInt32();
-                    PlayerChrType = br.ReadEnum8<PseudoPlayerChrType>();
-                    MessageSetType = br.ReadEnum8<PseudoMessageSetType>();
+                    PlayerChrType = br.ReadByte();
+                    MessageSetType = br.ReadByte();
                     br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
                     br.ReadByte(); // Not an assert to prevent making old modded maps inaccessible.
                     JoinMessageTextID = br.ReadInt32();
@@ -890,7 +842,6 @@ namespace SoulsFormats
                 /// <summary>
                 /// Unknown; probably some kind of route type.
                 /// </summary>
-                [MSBEnum(EnumType = "PATROL_TYPE")]
                 public int PatrolType { get; set; }
 
                 /// <summary>

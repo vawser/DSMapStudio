@@ -67,7 +67,8 @@ namespace SoulsFormats
                     {
                         ambiguous = true;
                         nameCounts[name]++;
-                        entry.Name = $"{className}{name} {{{nameCounts[name]}}}";
+
+                        entry.Name = $"{name} {{{nameCounts[name]}}}";
                     }
                 }
             }
@@ -89,18 +90,64 @@ namespace SoulsFormats
                 return list[index].Name;
         }
 
-        internal static string[] FindNames<T>(List<T> list, int[] indices) where T : IMsbEntry
+        internal static string FindNameInSubType<T>(List<T> list, Type subType, int index) where T : IMsbEntry
         {
-            var names = new string[indices.Length];
-            for (int i = 0; i < indices.Length; i++)
+            if (index == -1)
+                return null;
+            else if (index >= list.Count)
+                return null;
+            else
+            {
+                int eventIndex = 0;
+                int subIndex = 0;
+
+                foreach (var entry in list)
+                {
+                    if (entry.GetType() == subType)
+                    {
+                        if (index == subIndex)
+                        {
+                            return list[eventIndex].Name;
+                        }
+
+                        subIndex++;
+                    }
+
+                    eventIndex++;
+                }
+            }
+
+            return null;
+        }
+
+        internal static string FindName<T>(List<T> list, ushort index) where T : IMsbEntry
+        {
+            if (index >= list.Count)
+                return null;
+            else
+                return list[index].Name;
+        }
+
+        internal static string[] FindNames<T>(List<T> list, IList<int> indices) where T : IMsbEntry
+        {
+            var names = new string[indices.Count];
+            for (int i = 0; i < indices.Count; i++)
                 names[i] = FindName(list, indices[i]);
             return names;
         }
 
-        internal static string[] FindNames<T>(List<T> list, short[] indices) where T : IMsbEntry
+        internal static string[] FindNames<T>(List<T> list, IList<ushort> indices) where T : IMsbEntry
         {
-            var names = new string[indices.Length];
-            for (int i = 0; i < indices.Length; i++)
+            var names = new string[indices.Count];
+            for (int i = 0; i < indices.Count; i++)
+                names[i] = FindName(list, indices[i]);
+            return names;
+        }
+
+        internal static string[] FindNames<T>(List<T> list, IList<short> indices) where T : IMsbEntry
+        {
+            var names = new string[indices.Count];
+            for (int i = 0; i < indices.Count; i++)
                 names[i] = FindName(list, indices[i]);
             return names;
         }
@@ -142,26 +189,60 @@ namespace SoulsFormats
             }
         }
 
-        internal static int[] FindIndices<T>(List<T> list, string[] names) where T : IMsbEntry
+        internal static int FindIndexOfSubType<T>(IMsbEntry referrer, List<T> list, Type subType, string name) where T : IMsbEntry
         {
-            var indices = new int[names.Length];
-            for (int i = 0; i < names.Length; i++)
+            if (name == null || name == "")
+            {
+                return -1;
+            }
+            else
+            {
+                int eventIndex = 0;
+                int subIndex = 0;
+
+                foreach (var entry in list)
+                {
+                    if (entry.GetType() == subType)
+                    {
+                        if (entry.Name == name)
+                        {
+                            return subIndex;
+                        }
+                        else if (entry.Name.ToLower() == name.ToLower())
+                        {
+                            return subIndex;
+                        }
+
+                        subIndex++;
+                    }
+
+                    eventIndex++;
+                }
+
+                throw new MissingReferenceException(referrer, name);
+            }
+        }
+
+        internal static int[] FindIndices<T>(List<T> list, IList<string> names) where T : IMsbEntry
+        {
+            var indices = new int[names.Count];
+            for (int i = 0; i < names.Count; i++)
                 indices[i] = FindIndex(list, names[i]);
             return indices;
         }
 
-        internal static int[] FindIndices<T>(IMsbEntry referrer, List<T> list, string[] names) where T : IMsbEntry
+        internal static int[] FindIndices<T>(IMsbEntry referrer, List<T> list, IList<string> names) where T : IMsbEntry
         {
-            var indices = new int[names.Length];
-            for (int i = 0; i < names.Length; i++)
+            var indices = new int[names.Count];
+            for (int i = 0; i < names.Count; i++)
                 indices[i] = FindIndex(referrer, list, names[i]);
             return indices;
         }
 
-        internal static short[] FindShortIndices<T>(IMsbEntry referrer, List<T> list, string[] names) where T : IMsbEntry
+        internal static short[] FindShortIndices<T>(IMsbEntry referrer, List<T> list, IList<string> names) where T : IMsbEntry
         {
-            var indices = new short[names.Length];
-            for (int i = 0; i < names.Length; i++)
+            var indices = new short[names.Count];
+            for (int i = 0; i < names.Count; i++)
                 indices[i] = (short)FindIndex(referrer, list, names[i]);
             return indices;
         }

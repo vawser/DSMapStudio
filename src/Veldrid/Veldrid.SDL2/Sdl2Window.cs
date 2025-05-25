@@ -50,6 +50,7 @@ namespace Veldrid.Sdl2
         public Sdl2Window(string title, int x, int y, int width, int height, WindowFlags flags, bool threadedProcessing)
         {
             SDL = SdlProvider.SDL.Value;
+
             _threadedProcessing = threadedProcessing;
             if (threadedProcessing)
             {

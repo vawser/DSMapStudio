@@ -7,7 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using DotNext.Buffers;
-using Microsoft.Toolkit.HighPerformance;
+using CommunityToolkit.HighPerformance;
 
 namespace SoulsFormats
 {
@@ -16,8 +16,13 @@ namespace SoulsFormats
     /// </summary>
     public sealed class BinaryReaderEx
     {
+        /// Silly wau hold holding Smithbox parameters for usage in SoulsFormats without editing the passed parameters
+        public static string CurrentProjectType { get; set; }
+        public static bool IgnoreAsserts { get; set; }
+        public static bool UseDCXHeuristicOnReadFailure { get; set; }
+
         private Stack<long> _steps;
-        private Memory<byte> _memory;
+        public Memory<byte> _memory;
 
         /// <summary>
         /// Interpret values as big-endian if set, or little-endian if not.
@@ -117,6 +122,8 @@ namespace SoulsFormats
         /// </summary>
         private T AssertValue<T>(T value, string typeName, string valueFormat, T option) where T : IEquatable<T>
         {
+            if (IgnoreAsserts) return value;
+
             if (value.Equals(option))
                 return value;
 
@@ -130,6 +137,8 @@ namespace SoulsFormats
         /// </summary>
         private T AssertValue<T>(T value, string typeName, string valueFormat, ReadOnlySpan<T> options) where T : IEquatable<T>
         {
+            if (IgnoreAsserts) return value;
+
             foreach (T option in options)
                 if (value.Equals(option))
                     return value;
@@ -761,9 +770,9 @@ namespace SoulsFormats
         /// <summary>
         /// Reads either a four or eight-byte signed integer depending on VarintLong and throws an exception if it does not match any of the specified options.
         /// </summary>
-        public long AssertVarint(long option)
+        public long AssertVarint(params long[] options)
         {
-            return AssertValue(ReadVarint(), VarintLong ? "Varint64" : "Varint32", "0x{0:X}", option);
+            return AssertValue(ReadVarint(), VarintLong ? "Varint64" : "Varint32", "0x{0:X}", options);
         }
         
         /// <summary>
@@ -1134,24 +1143,6 @@ namespace SoulsFormats
             string result = ReadShiftJIS(length);
             StepOut();
             return result;
-        }
-
-        /// <summary>
-        /// Reads a CR+LF terminated UTF-8 string.
-        /// </summary>
-        public string ReadUTF8Line()
-        {
-            List<byte> bytes = new List<byte>(64);
-            byte currByte = ReadByte();
-            while (currByte != '\r')
-            {
-                bytes.Add(currByte);
-                currByte = ReadByte();
-            }
-            //Advance 1 extra character to account for the linefeed
-            Skip(1);
-
-            return SFEncoding.UTF8.GetString(bytes.ToArray());
         }
 
         /// <summary>

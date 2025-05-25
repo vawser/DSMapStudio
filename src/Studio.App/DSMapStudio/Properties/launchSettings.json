@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "DSMapStudio": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}
