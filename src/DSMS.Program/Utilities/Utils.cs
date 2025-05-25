@@ -876,13 +876,13 @@ public static class Utils
 
     public static void setRegistry(string name, string value)
     {
-        RegistryKey rkey = Registry.CurrentUser.CreateSubKey(@"Software\Smithbox");
+        RegistryKey rkey = Registry.CurrentUser.CreateSubKey(@"Software\DSMS");
         rkey.SetValue(name, value);
     }
 
     public static string readRegistry(string name)
     {
-        RegistryKey rkey = Registry.CurrentUser.CreateSubKey(@"Software\Smithbox");
+        RegistryKey rkey = Registry.CurrentUser.CreateSubKey(@"Software\DSMS");
         var v = rkey.GetValue(name);
         return v == null ? null : v.ToString();
     }

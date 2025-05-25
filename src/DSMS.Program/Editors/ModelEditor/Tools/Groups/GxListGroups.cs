@@ -33,7 +33,7 @@ namespace StudioCore.Editors.ModelEditor.Tools
 
         public static void DisplaySubMenu(ModelEditorScreen editor)
         {
-            ExportBasePath = $"{editor.Project.ProjectPath}\\.smithbox\\Workflow\\GX List Groups\\";
+            ExportBasePath = $"{editor.Project.ProjectPath}\\.dsms\\Workflow\\GX List Groups\\";
 
             UpdateGXListGroupList();
 

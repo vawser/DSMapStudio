@@ -39,7 +39,7 @@ public class FileListView
     }
 
     /// <summary>
-    /// Ignore the bdt files since clicking them crashes Smithbox, and the bucket viewing is done via the bhd.
+    /// Ignore the bdt files since clicking them crashes DSMS, and the bucket viewing is done via the bhd.
     /// </summary>
     private List<string> ignoredFiles = new()
     {

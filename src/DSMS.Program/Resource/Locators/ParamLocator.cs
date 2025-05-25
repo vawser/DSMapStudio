@@ -120,7 +120,7 @@ public static class ParamLocator
 
     public static string GetStrippedRowNamesPath(ProjectEntry project, string paramName)
     {
-        var dir = $"{project.ProjectPath}\\.smithbox\\Workflow\\Stripped Row Names";
+        var dir = $"{project.ProjectPath}\\.dsms\\Workflow\\Stripped Row Names";
 
         return $@"{dir}\{paramName}.txt";
     }

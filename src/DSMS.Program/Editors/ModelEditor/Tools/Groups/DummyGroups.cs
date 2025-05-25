@@ -32,7 +32,7 @@ namespace StudioCore.Editors.ModelEditor.Tools
 
         public static void DisplaySubMenu(ModelEditorScreen editor)
         {
-            ExportBasePath = $"{editor.Project.ProjectPath}\\.smithbox\\Workflow\\Dummy Groups\\";
+            ExportBasePath = $"{editor.Project.ProjectPath}\\.dsms\\Workflow\\Dummy Groups\\";
 
             UpdateDummyGroupList();
 

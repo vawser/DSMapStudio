@@ -69,7 +69,7 @@ public static class ParamCategories
             isNewEntryMode = false;
             isEditEntryMode = false;
         }
-        UIHelper.Tooltip("Permanently save the current param categories to your project's .smithbox folder, so they persist across sessions.");
+        UIHelper.Tooltip("Permanently save the current param categories to your project's .dsms folder, so they persist across sessions.");
 
         if (ImGui.Button("Edit Selected Entry", new Vector2(sectionWidth * 0.5f, 24)))
         {
@@ -272,16 +272,16 @@ public static class ParamCategories
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    editor.Project.ParamCategories = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.ParamCategoryResource);
+                    editor.Project.ParamCategories = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.ParamCategoryResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog("[Smithbox] Failed to deserialize param categories", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog("[DSMS] Failed to deserialize param categories", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog("[Smithbox] Failed to read param categories", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog("[DSMS] Failed to read param categories", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
     }
@@ -291,7 +291,7 @@ public static class ParamCategories
         if (editor.Project.ProjectType == ProjectType.Undefined)
             return;
 
-        var modResourceDir = $"{editor.Project.ProjectPath}\\.smithbox\\Assets\\PARAM\\{ProjectUtils.GetGameDirectory(editor.Project)}\\";
+        var modResourceDir = $"{editor.Project.ProjectPath}\\.dsms\\Assets\\PARAM\\{ProjectUtils.GetGameDirectory(editor.Project)}\\";
         var modResourcePath = Path.Combine(modResourceDir, "Categories.json");
 
         if (!Directory.Exists(modResourceDir))
@@ -301,7 +301,7 @@ public static class ParamCategories
 
         if (Directory.Exists(modResourceDir))
         {
-            string jsonString = JsonSerializer.Serialize(editor.Project.ParamCategories, typeof(ParamCategoryResource), SmithboxSerializerContext.Default);
+            string jsonString = JsonSerializer.Serialize(editor.Project.ParamCategories, typeof(ParamCategoryResource), DsmsSerializerContext.Default);
 
             try
             {

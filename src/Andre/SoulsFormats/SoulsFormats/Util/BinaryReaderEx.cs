@@ -16,7 +16,7 @@ namespace SoulsFormats
     /// </summary>
     public sealed class BinaryReaderEx
     {
-        /// Silly wau hold holding Smithbox parameters for usage in SoulsFormats without editing the passed parameters
+        /// Silly way of holding DSMS parameters for usage in SoulsFormats without editing the passed parameters
         public static string CurrentProjectType { get; set; }
         public static bool IgnoreAsserts { get; set; }
         public static bool UseDCXHeuristicOnReadFailure { get; set; }

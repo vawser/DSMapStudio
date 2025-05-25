@@ -349,7 +349,7 @@ public class PrefabView
     public void RefreshPrefabList()
     {
         prefabs = new();
-        prefabDir = $"{Editor.Project.ProjectPath}\\.smithbox\\{ProjectUtils.GetGameDirectory(Editor.Project)}\\prefabs\\";
+        prefabDir = $"{Editor.Project.ProjectPath}\\.dsms\\{ProjectUtils.GetGameDirectory(Editor.Project)}\\prefabs\\";
         if (!Directory.Exists(prefabDir))
         {
             try { Directory.CreateDirectory(prefabDir); } catch { }

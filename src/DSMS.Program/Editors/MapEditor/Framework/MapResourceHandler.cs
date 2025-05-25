@@ -177,7 +177,7 @@ public class MapResourceHandler
 
         // AET
         /*
-        if(Smithbox.ProjectType is ProjectType.ER)
+        if(Editor.Project.ProjectType is ProjectType.ER)
         {
             var erMap = (MSBE)Msb;
 
@@ -188,7 +188,7 @@ public class MapResourceHandler
                 LoadList_Other_Texture.Add(asset);
             }
         }
-        if (Smithbox.ProjectType is ProjectType.AC6)
+        if (Editor.Project.ProjectType is ProjectType.AC6)
         {
             var acMap = (MSB_AC6)Msb;
 

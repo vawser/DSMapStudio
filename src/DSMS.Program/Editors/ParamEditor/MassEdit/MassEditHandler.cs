@@ -421,7 +421,7 @@ public class MassEditHandler
             ImGui.SameLine();
             if (ImGui.Button("Open Script Folder", halfButtonSize))
             {
-                var projectScriptDir = $"{Editor.Project.ProjectPath}\\.smithbox\\Assets\\Scripts\\";
+                var projectScriptDir = $"{Editor.Project.ProjectPath}\\.dsms\\Assets\\Scripts\\";
 
                 Process.Start("explorer.exe", projectScriptDir);
             }
@@ -443,11 +443,11 @@ public class MassEditHandler
     {
         if (NewScriptName == "")
         {
-            PlatformUtils.Instance.MessageBox($"Name must not be empty.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox($"Name must not be empty.", "DSMS", MessageBoxButtons.OK);
             return;
         }
 
-        var projectScriptDir = $"{Editor.Project.ProjectPath}\\.smithbox\\Assets\\Scripts\\";
+        var projectScriptDir = $"{Editor.Project.ProjectPath}\\.dsms\\Assets\\Scripts\\";
         var scriptPath = $"{projectScriptDir}{NewScriptName}.txt";
 
         // Check both so the name is unique everywhere
@@ -472,7 +472,7 @@ public class MassEditHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox($"{NewScriptName}.txt already exists within the Scripts folder.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox($"{NewScriptName}.txt already exists within the Scripts folder.", "DSMS", MessageBoxButtons.OK);
         }
 
         MassEditScript.ReloadScripts(Editor);

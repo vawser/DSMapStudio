@@ -16,7 +16,7 @@ public static class ModEngineUtils
     public static void LaunchMod(ProjectEntry curProject)
     {
         var modEngineInstallFolderPath = Path.GetDirectoryName(CFG.Current.ModEngineInstall);
-        var modTomlPath = @$"{modEngineInstallFolderPath}\smithbox_launch_config.toml";
+        var modTomlPath = @$"{modEngineInstallFolderPath}\dsms_launch_config.toml";
 
         var dllInput = "";
         if (CFG.Current.ModEngineDlls != "")
@@ -62,7 +62,7 @@ enabled = false";
 
         if(File.Exists(modTomlPath))
         {
-            var tomlPath = $@"{modEngineInstallFolderPath}\smithbox_launch_config.toml";
+            var tomlPath = $@"{modEngineInstallFolderPath}\dsms_launch_config.toml";
             var projectType = $"{curProject.ProjectType}".ToLower();
 
             var inputStr = $"'-t' '{projectType}' '-c' '{tomlPath}'".Replace("'", "\"");

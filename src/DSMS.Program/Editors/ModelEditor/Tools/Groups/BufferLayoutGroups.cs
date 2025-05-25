@@ -34,7 +34,7 @@ namespace StudioCore.Editors.ModelEditor.Tools
 
         public static void DisplaySubMenu(ModelEditorScreen editor)
         {
-            ExportBasePath = $"{editor.Project.ProjectPath}\\.smithbox\\Workflow\\Buffer Layout Groups\\";
+            ExportBasePath = $"{editor.Project.ProjectPath}\\.dsms\\Workflow\\Buffer Layout Groups\\";
 
             UpdateBufferLayoutGroupList();
 

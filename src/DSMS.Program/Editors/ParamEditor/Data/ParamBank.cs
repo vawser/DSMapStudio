@@ -2040,7 +2040,7 @@ public class ParamBank
 
         var file = Path.Combine(folder, "Stripped Row Names.json");
 
-        var json = JsonSerializer.Serialize(store, SmithboxSerializerContext.Default.RowNameStore);
+        var json = JsonSerializer.Serialize(store, DsmsSerializerContext.Default.RowNameStore);
 
         File.WriteAllText(file, json);
 
@@ -2067,7 +2067,7 @@ public class ParamBank
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    store = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.RowNameStore);
+                    store = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.RowNameStore);
                 }
                 catch (Exception e)
                 {
@@ -2185,7 +2185,7 @@ public class ParamBank
         {
             var filestring = File.ReadAllText(sourceFilepath);
             var options = new JsonSerializerOptions();
-            store = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.RowNameStore);
+            store = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.RowNameStore);
 
             if (store == null)
             {
@@ -2338,7 +2338,7 @@ public class ParamBank
 
             var file = Path.Combine(filepath, outputName);
 
-            var json = JsonSerializer.Serialize(store, SmithboxSerializerContext.Default.RowNameStore);
+            var json = JsonSerializer.Serialize(store, DsmsSerializerContext.Default.RowNameStore);
 
             File.WriteAllText(file, json);
 

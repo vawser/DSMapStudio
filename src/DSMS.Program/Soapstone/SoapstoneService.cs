@@ -69,7 +69,7 @@ public class SoapstoneService : SoapstoneServiceV1
     {
         ServerInfoResponse response = new()
         {
-            Id = "Smithbox",
+            Id = "DSMapStudio",
             Version = Version,
             ServerPath = Process.GetCurrentProcess().MainModule?.FileName
         };

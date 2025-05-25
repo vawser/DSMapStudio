@@ -218,7 +218,7 @@ public class ParamData
                 {
                     var options = new JsonSerializerOptions();
 
-                    paramTypeInfo = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.ParamTypeInfo);
+                    paramTypeInfo = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.ParamTypeInfo);
                     ParamTypeInfo = paramTypeInfo;
                 }
                 catch (Exception e)
@@ -257,7 +257,7 @@ public class ParamData
 
         var rootMetaDir = @$"{AppContext.BaseDirectory}\Assets\PARAM\{ProjectUtils.GetGameDirectory(Project)}\Meta";
 
-        var projectMetaDir = @$"{Project.ProjectPath}\.smithbox\Assets\PARAM\{ProjectUtils.GetGameDirectory(Project)}\Meta";
+        var projectMetaDir = @$"{Project.ProjectPath}\.dsms\Assets\PARAM\{ProjectUtils.GetGameDirectory(Project)}\Meta";
 
         if (CFG.Current.UseProjectMeta)
         {
@@ -328,7 +328,7 @@ public class ParamData
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    GraphLegends = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.GraphLegends);
+                    GraphLegends = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.GraphLegends);
                 }
                 catch (Exception e)
                 {
@@ -348,7 +348,7 @@ public class ParamData
     {
         var metaDir = ParamLocator.GetParammetaDir(Project);
         var rootDir = Path.Combine(AppContext.BaseDirectory, metaDir);
-        var projectDir = $"{Project.ProjectPath}\\.smithbox\\{metaDir}";
+        var projectDir = $"{Project.ProjectPath}\\.dsms\\{metaDir}";
 
         if (!Directory.Exists(projectDir))
         {

@@ -1216,7 +1216,7 @@ public class ParamEditorScreen : EditorScreen
             catch (Exception e)
             {
                 // Happily ignore exceptions. This is non-mutating code with no critical use.
-                TaskLogs.AddLog($"[Smithbox:Param Editor] StatisticPopups buttons failed.", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS:Param Editor] StatisticPopups buttons failed.", LogLevel.Error, Tasks.LogPriority.High, e);
             }
 
             ImGui.Separator();
@@ -1442,7 +1442,7 @@ public class ParamEditorScreen : EditorScreen
         }
         catch (Exception e)
         {
-            TaskLogs.AddLog($"[Smithbox:Param Editor] Failed to write file: {path}.", LogLevel.Error, Tasks.LogPriority.High, e);
+            TaskLogs.AddLog($"[DSMS:Param Editor] Failed to write file: {path}.", LogLevel.Error, Tasks.LogPriority.High, e);
 
             PlatformUtils.Instance.MessageBox("Unable to write to " + path, "Write Error", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
@@ -1457,7 +1457,7 @@ public class ParamEditorScreen : EditorScreen
         }
         catch (Exception e)
         {
-            TaskLogs.AddLog($"[Smithbox:Param Editor] Failed to read file: {path}.", LogLevel.Error, Tasks.LogPriority.High, e);
+            TaskLogs.AddLog($"[DSMS:Param Editor] Failed to read file: {path}.", LogLevel.Error, Tasks.LogPriority.High, e);
 
             PlatformUtils.Instance.MessageBox("Unable to read from " + path, "Read Error", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);

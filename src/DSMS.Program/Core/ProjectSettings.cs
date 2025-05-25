@@ -162,7 +162,7 @@ public static class ProjectSettings
             Display = false;
 
             // Delete the project file
-            var filename = @$"{AppContext.BaseDirectory}\.smithbox\Projects\{TargetProject.ProjectGUID}.json";
+            var filename = @$"{AppContext.BaseDirectory}\.dsms\Projects\{TargetProject.ProjectGUID}.json";
             if (File.Exists(filename))
             {
                 File.Delete(filename);
@@ -289,7 +289,7 @@ public static class ProjectSettings
 
             ImGui.AlignTextToFramePadding();
             ImGui.Text("Automatic Load");
-            UIHelper.Tooltip("If true, then this project will be automatically loaded when Smithbox launches.");
+            UIHelper.Tooltip("If true, then this project will be automatically loaded when DSMS launches.");
 
             ImGui.TableSetColumnIndex(1);
 

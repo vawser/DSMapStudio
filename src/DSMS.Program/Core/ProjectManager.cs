@@ -278,7 +278,7 @@ public class ProjectManager
             var folder = ProjectUtils.GetProjectsFolder();
             var file = Path.Combine(folder, $"{curProject.ProjectGUID}.json");
 
-            var json = JsonSerializer.Serialize(curProject, SmithboxSerializerContext.Default.ProjectEntry);
+            var json = JsonSerializer.Serialize(curProject, DsmsSerializerContext.Default.ProjectEntry);
 
             File.WriteAllText(file, json);
         }
@@ -323,11 +323,11 @@ public class ProjectManager
                     var filestring = File.ReadAllText(entry);
                     var options = new JsonSerializerOptions();
 
-                    var curProject = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.ProjectEntry);
+                    var curProject = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.ProjectEntry);
 
                     if (curProject == null)
                     {
-                        TaskLogs.AddLog($"[Smithbox] Failed to load project: {entry}", LogLevel.Warning);
+                        TaskLogs.AddLog($"[DSMS] Failed to load project: {entry}", LogLevel.Warning);
                     }
                     else
                     {
@@ -343,7 +343,7 @@ public class ProjectManager
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to load project: {entry}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to load project: {entry}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
         }
@@ -388,17 +388,17 @@ public class ProjectManager
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    ProjectDisplayOrder = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.ProjectDisplayOrder);
+                    ProjectDisplayOrder = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.ProjectDisplayOrder);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog("[Smithbox] Failed to deserialize Project Display Order", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog("[DSMS] Failed to deserialize Project Display Order", LogLevel.Error, Tasks.LogPriority.High, e);
                     ProjectDisplayOrder = new ProjectDisplayOrder();
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog("[Smithbox] Failed to read Project Display Order", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog("[DSMS] Failed to read Project Display Order", LogLevel.Error, Tasks.LogPriority.High, e);
                 ProjectDisplayOrder = new ProjectDisplayOrder();
             }
         }
@@ -409,7 +409,7 @@ public class ProjectManager
         var folder = ProjectUtils.GetConfigurationFolder();
         var file = Path.Combine(folder, "Project Display Order.json");
 
-        var json = JsonSerializer.Serialize(ProjectDisplayOrder, SmithboxSerializerContext.Default.ProjectDisplayOrder);
+        var json = JsonSerializer.Serialize(ProjectDisplayOrder, DsmsSerializerContext.Default.ProjectDisplayOrder);
 
         File.WriteAllText(file, json);
     }

@@ -116,8 +116,6 @@ public class ModelContainer : ObjectContainer
 
         pos = OffsetPos(pos, flver, dummy);
         dummy.Position = pos;
-
-        //Smithbox.EditorHandler.ModelEditor.ViewportHandler.UpdateRepresentativeDummy(index, pos);
     }
 
     public Vector3 RecursiveBoneOffset(Vector3 translation, FLVER.Node bone, FLVER2 flver)

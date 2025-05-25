@@ -88,6 +88,6 @@ namespace StudioCore.Formats.JSON;
 [JsonSerializable(typeof(MaterialDisplayConfiguration))]
 [JsonSerializable(typeof(MaterialFileListConfiguration))]
 
-internal partial class SmithboxSerializerContext : JsonSerializerContext
+internal partial class DsmsSerializerContext : JsonSerializerContext
 {
 }

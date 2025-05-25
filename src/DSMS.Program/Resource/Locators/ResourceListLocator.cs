@@ -199,7 +199,7 @@ public static class ResourceListLocator
         }
         catch (DirectoryNotFoundException e)
         {
-            TaskLogs.AddLog($"[Smithbox] Failed to find characer models.", LogLevel.Error, Tasks.LogPriority.High, e);
+            TaskLogs.AddLog($"[DSMS] Failed to find characer models.", LogLevel.Error, Tasks.LogPriority.High, e);
 
             // Game likely isn't UXM unpacked
             return new List<string>();
@@ -377,7 +377,7 @@ public static class ResourceListLocator
         }
         catch (DirectoryNotFoundException e)
         {
-            TaskLogs.AddLog($"[Smithbox] Failed to find part models.", LogLevel.Error, Tasks.LogPriority.High, e);
+            TaskLogs.AddLog($"[DSMS] Failed to find part models.", LogLevel.Error, Tasks.LogPriority.High, e);
 
             // Game likely isn't UXM unpacked
             return new List<string>();

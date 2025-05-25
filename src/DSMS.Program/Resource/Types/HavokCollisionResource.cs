@@ -833,7 +833,7 @@ public class HavokCollisionResource : IResource, IDisposable
                         }
                         catch (Exception e)
                         {
-                            TaskLogs.AddLog($"[Smithbox] Failed to load HKX.", LogLevel.Error, Tasks.LogPriority.High, e);
+                            TaskLogs.AddLog($"[DSMS] Failed to load HKX.", LogLevel.Error, Tasks.LogPriority.High, e);
                         }
                     }
                 }
@@ -892,7 +892,7 @@ public class HavokCollisionResource : IResource, IDisposable
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to load HKX2.", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to load HKX2.", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
 
@@ -966,7 +966,7 @@ public class HavokCollisionResource : IResource, IDisposable
                     }
                     catch (Exception e)
                     {
-                        TaskLogs.AddLog($"[Smithbox] Failed to load HKLIB.", LogLevel.Error, Tasks.LogPriority.High, e);
+                        TaskLogs.AddLog($"[DSMS] Failed to load HKLIB.", LogLevel.Error, Tasks.LogPriority.High, e);
                         // Debug failing cases later
                     }
                 }

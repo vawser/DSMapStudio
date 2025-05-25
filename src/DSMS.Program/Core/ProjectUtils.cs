@@ -52,12 +52,12 @@ public class ProjectUtils
 
     public static string GetBaseFolder()
     {
-        return @$"{AppContext.BaseDirectory}\.smithbox";
+        return @$"{AppContext.BaseDirectory}\.dsms";
     }
 
     public static string GetConfigurationFolder()
     {
-        return @$"{AppContext.BaseDirectory}\.smithbox\Configuration";
+        return @$"{AppContext.BaseDirectory}\.dsms\Configuration";
     }
     public static string GetThemeFolder()
     {
@@ -67,11 +67,11 @@ public class ProjectUtils
 
     public static string GetProjectsFolder()
     {
-        return @$"{AppContext.BaseDirectory}\.smithbox\Projects";
+        return @$"{AppContext.BaseDirectory}\.dsms\Projects";
     }
     public static string GetLocalProjectFolder(ProjectEntry project)
     {
-        return @$"{project.ProjectPath}\.smithbox\Project";
+        return @$"{project.ProjectPath}\.dsms\Project";
     }
 
     public static List<string> GetLooseParamsInDir(VirtualFileSystem fs, string dir)
@@ -97,7 +97,7 @@ public class ProjectUtils
 
         if (!Directory.Exists(sourcePath))
         {
-            TaskLogs.AddLog($"[Smithbox] Source path not found: {sourcePath}", LogLevel.Error, Tasks.LogPriority.High);
+            TaskLogs.AddLog($"[DSMS] Source path not found: {sourcePath}", LogLevel.Error, Tasks.LogPriority.High);
             return fileDict;
         }
 

@@ -178,7 +178,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -293,7 +293,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -349,7 +349,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -364,7 +364,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -429,7 +429,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -459,7 +459,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -557,7 +557,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -580,7 +580,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -694,7 +694,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -717,7 +717,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 
@@ -880,7 +880,7 @@ public class MapActionHandler
         }
         else
         {
-            PlatformUtils.Instance.MessageBox("No object selected.", "Smithbox", MessageBoxButtons.OK);
+            PlatformUtils.Instance.MessageBox("No object selected.", "DSMS", MessageBoxButtons.OK);
         }
     }
 

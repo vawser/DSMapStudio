@@ -29,7 +29,7 @@ public class TextNamingTemplateManager
     {
         Editor = editor;
         RootPath = $"{AppContext.BaseDirectory}\\Assets\\Workflow\\Naming Templates\\";
-        ProjectPath = $"{editor.Project.ProjectPath}\\.smithbox\\Workflow\\Naming Templates\\";
+        ProjectPath = $"{editor.Project.ProjectPath}\\.dsms\\Workflow\\Naming Templates\\";
     }
 
     public FmgEntryGeneratorBase GetGenerator(string name)
@@ -71,7 +71,7 @@ public class TextNamingTemplateManager
 
     public void OnProjectChanged()
     {
-        ProjectPath = $"{Editor.Project.ProjectPath}\\.smithbox\\Workflow\\Naming Templates\\";
+        ProjectPath = $"{Editor.Project.ProjectPath}\\.dsms\\Workflow\\Naming Templates\\";
 
         GeneratorDictionary = new();
 

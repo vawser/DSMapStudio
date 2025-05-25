@@ -118,7 +118,7 @@ public static class LocatorUtils
         }
         catch (DirectoryNotFoundException e)
         {
-            TaskLogs.AddLog($"[Smithbox] Failed to find directory: {paramDir}", LogLevel.Error, Tasks.LogPriority.High, e);
+            TaskLogs.AddLog($"[DSMS] Failed to find directory: {paramDir}", LogLevel.Error, Tasks.LogPriority.High, e);
 
             // Game likely isn't UXM unpacked
             return new List<string>();

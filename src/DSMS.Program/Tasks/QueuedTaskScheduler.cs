@@ -236,7 +236,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
                     }
                     catch (Exception ex)
                     {
-                        TaskLogs.AddLog($"[Smithbox] Task failed.", LogLevel.Error, Tasks.LogPriority.High, ex);
+                        TaskLogs.AddLog($"[DSMS] Task failed.", LogLevel.Error, Tasks.LogPriority.High, ex);
                     }
                     //catch (ThreadAbortException)
                     //{

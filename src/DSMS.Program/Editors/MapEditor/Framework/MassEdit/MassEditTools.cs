@@ -94,7 +94,7 @@ public class MassEditTools
             {
                 BackupMaps();
             }
-            UIHelper.Tooltip("All maps as they currently exist will be backed up into a ZIP file within the .smithbox folder.");
+            UIHelper.Tooltip("All maps as they currently exist will be backed up into a ZIP file within the .dsms folder.");
 
             ImGui.EndChild();
         }
@@ -105,7 +105,7 @@ public class MassEditTools
     private void SetupTemplates()
     {
         Templates = new Dictionary<string, MassEditTemplate>();
-        TemplateDir = $"{Editor.Project.ProjectPath}\\.smithbox\\Workflow\\MSB\\Mass Edit Templates";
+        TemplateDir = $"{Editor.Project.ProjectPath}\\.dsms\\Workflow\\MSB\\Mass Edit Templates";
 
         if (!Directory.Exists(TemplateDir))
         {
@@ -140,7 +140,7 @@ public class MassEditTools
 
     private void BackupMaps()
     {
-        BackupDir = $"{Editor.Project.ProjectPath}\\.smithbox\\Workflow\\MSB\\Backups";
+        BackupDir = $"{Editor.Project.ProjectPath}\\.dsms\\Workflow\\MSB\\Backups";
         if (!Directory.Exists(BackupDir))
         {
             Directory.CreateDirectory(BackupDir);

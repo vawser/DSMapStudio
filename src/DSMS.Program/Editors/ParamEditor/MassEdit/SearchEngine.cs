@@ -184,7 +184,7 @@ public class SearchEngine<A, B>
         }
         catch (Exception)
         {
-            //TaskLogs.AddLog($"[Smithbox:Param Editor] Search Engine search failed.", LogLevel.Error, Tasks.LogPriority.High, e);
+            //TaskLogs.AddLog($"[DSMS:Param Editor] Search Engine search failed.", LogLevel.Error, Tasks.LogPriority.High, e);
 
             liveSet = failureAllOrNone ? sourceSet : new List<B>();
         }

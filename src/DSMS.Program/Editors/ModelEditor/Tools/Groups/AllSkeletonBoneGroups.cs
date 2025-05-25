@@ -29,7 +29,7 @@ namespace StudioCore.Editors.ModelEditor.Tools
 
         public static void DisplaySubMenu(ModelEditorScreen editor)
         {
-            ExportBasePath = $"{editor.Project.ProjectPath}\\.smithbox\\Workflow\\All Skeleton Groups\\";
+            ExportBasePath = $"{editor.Project.ProjectPath}\\.dsms\\Workflow\\All Skeleton Groups\\";
 
             UpdateAllSkeletonGroupList();
 

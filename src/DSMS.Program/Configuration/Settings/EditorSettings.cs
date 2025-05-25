@@ -37,15 +37,15 @@ public class SystemTab
     {
         if (ImGui.CollapsingHeader("General", ImGuiTreeNodeFlags.DefaultOpen))
         {
-            ImGui.Checkbox("Check for new versions of Smithbox during startup",
+            ImGui.Checkbox("Check for new versions of DSMS during startup",
                 ref CFG.Current.System_Check_Program_Update);
-            UIHelper.Tooltip("When enabled Smithbox will automatically check for new versions upon program start.");
+            UIHelper.Tooltip("When enabled DSMS will automatically check for new versions upon program start.");
 
             ImGui.Separator();
 
-            UIHelper.WrappedText("By default, files are read by Smithbox in a strict manner. Data that is present in locations that it should not be will throw an exception.");
+            UIHelper.WrappedText("By default, files are read by DSMS in a strict manner. Data that is present in locations that it should not be will throw an exception.");
 
-            UIHelper.WrappedText("This option will remove that strictness, and will cause Smithbox to ignore the invalid data when reading a file.");
+            UIHelper.WrappedText("This option will remove that strictness, and will cause DSMS to ignore the invalid data when reading a file.");
 
             ImGui.Checkbox("Ignore Read asserts", ref CFG.Current.System_IgnoreAsserts);
             if(ImGui.IsItemDeactivatedAfterEdit())
@@ -178,7 +178,7 @@ public class MapEditorTab
         if (ImGui.CollapsingHeader("General", ImGuiTreeNodeFlags.DefaultOpen))
         {
             ImGui.Checkbox("Allow map unload", ref CFG.Current.MapEditor_EnableMapUnload);
-            UIHelper.Tooltip("When enabled, a map's resources will be unloaded and released when a map is unloaded. If disabled, they are kept in memory until Smithbox closes.");
+            UIHelper.Tooltip("When enabled, a map's resources will be unloaded and released when a map is unloaded. If disabled, they are kept in memory until DSMS closes.");
 
             ImGui.Checkbox("Enable map load on double-click", ref CFG.Current.MapEditor_Enable_Map_Load_on_Double_Click);
             UIHelper.Tooltip("This option will cause double-clicking on a map in the map object list to load it.");
@@ -187,7 +187,7 @@ public class MapEditorTab
             UIHelper.Tooltip("This option will cause loaded maps to always be visible within the map list, ignoring the search filter.");
 
             ImGui.Checkbox("Enable global property search", ref CFG.Current.MapEditor_LoadMapQueryData);
-            UIHelper.Tooltip("This option will allow the global property search to be used. Note, this will load all map files into memory.\nYou need to restart Smithbox after enabling this.");
+            UIHelper.Tooltip("This option will allow the global property search to be used. Note, this will load all map files into memory.\nYou need to restart DSMS after enabling this.");
 
             if (BaseEditor.ProjectManager.SelectedProject != null)
             {
@@ -421,7 +421,7 @@ public class ModelEditorTab
         if (ImGui.CollapsingHeader("Viewport Grid", ImGuiTreeNodeFlags.DefaultOpen))
         {
             ImGui.SliderInt("Grid size", ref CFG.Current.ModelEditor_Viewport_Grid_Size, 100, 1000);
-            UIHelper.Tooltip("The overall maximum size of the grid.\nThe grid will only update upon restarting Smithbox after changing this value.");
+            UIHelper.Tooltip("The overall maximum size of the grid.\nThe grid will only update upon restarting DSMS after changing this value.");
 
             ImGui.SliderInt("Grid increment", ref CFG.Current.ModelEditor_Viewport_Grid_Square_Size, 1, 100);
             UIHelper.Tooltip("The increment size of the grid.");
@@ -649,7 +649,7 @@ public class ParamEditorTab
 
                     curProject.ParamData.ReloadMeta();
                 }
-                UIHelper.Tooltip("Use project-specific PARAM meta instead of Smithbox's base version.");
+                UIHelper.Tooltip("Use project-specific PARAM meta instead of DSMS's base version.");
 
                 ImGui.Checkbox("Use loose params", ref CFG.Current.Param_UseLooseParams);
                 UIHelper.Tooltip("If true, then loose params will be loaded over the packed versions.");
@@ -702,7 +702,7 @@ public class ParamEditorTab
                         ImGui.Checkbox("Strip row names on save", ref CFG.Current.Param_StripRowNamesOnSave_AC6);
                         break;
                 }
-                UIHelper.Tooltip("If enabled, row names are stripped upon save, meaning no row names will be stored in the regulation.\n\nThe row names are saved in the /.smithbox/Workflow/Stripped Row Names/ folder within your project folder.");
+                UIHelper.Tooltip("If enabled, row names are stripped upon save, meaning no row names will be stored in the regulation.\n\nThe row names are saved in the /.dsms/Workflow/Stripped Row Names/ folder within your project folder.");
 
 
                 switch (curProject.ProjectType)
@@ -741,7 +741,7 @@ public class ParamEditorTab
                         ImGui.Checkbox("Restore stripped row names on load", ref CFG.Current.Param_RestoreStrippedRowNamesOnLoad_AC6);
                         break;
                 }
-                UIHelper.Tooltip("If enabled, stripped row names that have been stored will be applied to the row names during param loading.\n\nThe row names are saved in the /.smithbox/Workflow/Stripped Row Names/ folder within your project folder.");
+                UIHelper.Tooltip("If enabled, stripped row names that have been stored will be applied to the row names during param loading.\n\nThe row names are saved in the /.dsms/Workflow/Stripped Row Names/ folder within your project folder.");
 
                 if (curProject.ProjectType is ProjectType.ER && curProject.ParamData.PrimaryBank.ParamVersion >= 11210015L)
                 {
@@ -1388,7 +1388,7 @@ public class TimeActEditorTab
         if (ImGui.CollapsingHeader("Viewport Grid"))
         {
             ImGui.SliderInt("Grid size", ref CFG.Current.TimeActEditor_Viewport_Grid_Size, 100, 1000);
-            ImguiUtils.ShowHoverTooltip("The overall maximum size of the grid.\nThe grid will only update upon restarting Smithbox after changing this value.");
+            ImguiUtils.ShowHoverTooltip("The overall maximum size of the grid.\nThe grid will only update upon restarting DSMS after changing this value.");
 
             ImGui.SliderInt("Grid increment", ref CFG.Current.TimeActEditor_Viewport_Grid_Square_Size, 1, 100);
             ImguiUtils.ShowHoverTooltip("The increment size of the grid.");
@@ -1466,7 +1466,7 @@ public class InterfaceTab
                 _tempScale = CFG.Current.System_UI_Scale;
                 DPI.UIScaleChanged?.Invoke(null, EventArgs.Empty);
             }
-            UIHelper.Tooltip("Adjusts the scale of the user interface throughout all of Smithbox.");
+            UIHelper.Tooltip("Adjusts the scale of the user interface throughout all of DSMS.");
 
             ImGui.SameLine();
 
@@ -1496,7 +1496,7 @@ public class InterfaceTab
                 CFG.Current.Interface_FontSize = (float)Math.Round(CFG.Current.Interface_FontSize);
                 DPI.UIScaleChanged?.Invoke(null, EventArgs.Empty);
             }
-            UIHelper.Tooltip("Adjusts the size of the font in Smithbox.");
+            UIHelper.Tooltip("Adjusts the size of the font in DSMS.");
 
             ImGui.Text("Current English Font:");
             ImGui.SameLine();
@@ -1563,7 +1563,7 @@ public class InterfaceTab
         // ImGui
         if (ImGui.CollapsingHeader("Interface Layout", ImGuiTreeNodeFlags.DefaultOpen))
         {
-            var storedDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Smithbox\";
+            var storedDir = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\DSMS\";
             var storedPath = $@"{storedDir}\imgui.ini";
 
             ImGui.AlignTextToFramePadding();
@@ -1612,7 +1612,7 @@ public class InterfaceTab
                         File.Copy(storedPath, curImgui, true);
                     }
 
-                    PlatformUtils.Instance.MessageBox("Applied imgui.ini change. Restart Smithbox to apply changes.", "Information", MessageBoxButtons.OK);
+                    PlatformUtils.Instance.MessageBox("Applied imgui.ini change. Restart DSMS to apply changes.", "Information", MessageBoxButtons.OK);
                 }
             }
 
@@ -1632,7 +1632,7 @@ public class InterfaceTab
                     File.Copy(defaultImgui, curImgui, true);
                 }
 
-                PlatformUtils.Instance.MessageBox("Applied imgui.ini change. Restart Smithbox to apply changes.", "Information", MessageBoxButtons.OK);
+                PlatformUtils.Instance.MessageBox("Applied imgui.ini change. Restart DSMS to apply changes.", "Information", MessageBoxButtons.OK);
             }
         }
 
@@ -1830,11 +1830,11 @@ public class ViewportTab
 
             // Toggle Rendering
             ImGui.Checkbox("Enable rendering", ref CFG.Current.Viewport_Enable_Rendering);
-            UIHelper.Tooltip("Enabling this option will allow Smithbox to render entities in the viewport.");
+            UIHelper.Tooltip("Enabling this option will allow DSMS to render entities in the viewport.");
 
             // Toggle Texturing
             ImGui.Checkbox("Enable texturing", ref CFG.Current.Viewport_Enable_Texturing);
-            UIHelper.Tooltip("Enabling this option will allow Smithbox to render the textures of models within the viewport.");
+            UIHelper.Tooltip("Enabling this option will allow DSMS to render the textures of models within the viewport.");
 
             // Toggle culling
             ImGui.Checkbox("Enable frustum culling", ref CFG.Current.Viewport_Enable_Culling);

@@ -102,12 +102,12 @@ public class CFG
     public bool System_Font_Vietnamese = false;
 
     /// <summary>
-    /// The relative path (from the Smithbox.exe) to the font used for English text.
+    /// The relative path (from the DSMS.exe) to the font used for English text.
     /// </summary>
     public string System_English_Font = "Assets\\Fonts\\RobotoMono-Light.ttf";
 
     /// <summary>
-    /// The relative path (from the Smithbox.exe) to the font used for non-English text.
+    /// The relative path (from the DSMS.exe) to the font used for non-English text.
     /// </summary>
     public string System_Other_Font = "Assets\\Fonts\\NotoSansCJKtc-Light.otf";
 
@@ -1197,7 +1197,7 @@ public class CFG
             {
                 var filestring = File.ReadAllText(file);
                 var options = new JsonSerializerOptions();
-                Current = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.CFG);
+                Current = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.CFG);
 
                 if (Current == null)
                 {
@@ -1206,7 +1206,7 @@ public class CFG
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog("[Smithbox] Configuration failed to load, default configuration has been restored.", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog("[DSMS] Configuration failed to load, default configuration has been restored.", LogLevel.Error, Tasks.LogPriority.High, e);
 
                 Current = new CFG();
                 Save();
@@ -1224,7 +1224,7 @@ public class CFG
             Directory.CreateDirectory(folder);
         }
 
-        var json = JsonSerializer.Serialize(Current, SmithboxSerializerContext.Default.CFG);
+        var json = JsonSerializer.Serialize(Current, DsmsSerializerContext.Default.CFG);
 
         File.WriteAllText(file, json);
     }

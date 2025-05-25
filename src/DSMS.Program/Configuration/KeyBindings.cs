@@ -124,7 +124,7 @@ public class KeyBindings
             {
                 var filestring = File.ReadAllText(file);
                 var options = new JsonSerializerOptions();
-                Current = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.Bindings);
+                Current = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.Bindings);
 
                 if (Current == null)
                 {
@@ -133,7 +133,7 @@ public class KeyBindings
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog("[Smithbox] Key Bindings failed to load, default key binding has been restored.", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog("[DSMS] Key Bindings failed to load, default key binding has been restored.", LogLevel.Error, Tasks.LogPriority.High, e);
 
                 Current = new Bindings();
                 Save();
@@ -146,7 +146,7 @@ public class KeyBindings
         var folder = ProjectUtils.GetConfigurationFolder();
         var file = Path.Combine(folder, "Key Bindings.json");
 
-        var json = JsonSerializer.Serialize(Current, SmithboxSerializerContext.Default.Bindings);
+        var json = JsonSerializer.Serialize(Current, DsmsSerializerContext.Default.Bindings);
 
         File.WriteAllText(file, json);
     }

@@ -604,8 +604,8 @@ public static class VirtualPathLocator
                 return TextureLocator.GetMenuTextureContainerPath(curProject, containerName);
             }
         }
-        // SMITHBOX
-        else if (pathElements[i].Equals("smithbox"))
+        // DSMS
+        else if (pathElements[i].Equals("dsms"))
         {
             bndpath = "";
 

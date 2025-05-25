@@ -14,7 +14,7 @@ using StudioCore.Platform;
 using Veldrid.Sdl2;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace Smithbox
+namespace DSMapStudio
 {
     public static class Program
     {
@@ -115,17 +115,17 @@ namespace Smithbox
         static void ExportCrashLog(List<string> exceptionInfo)
         {
             var time = $"{DateTime.Now:yyyy-M-dd--HH-mm-ss}";
-            exceptionInfo.Insert(0, $"Smithbox - Version {_version}\n");
+            exceptionInfo.Insert(0, $"DSMS - Version {_version}\n");
             Directory.CreateDirectory($"{CrashLogPath}");
             var crashLogPath = $"{CrashLogPath}\\Log {time}.txt";
             File.WriteAllLines(crashLogPath, exceptionInfo);
 
             if (exceptionInfo.Count > 10)
-                PlatformUtils.Instance.MessageBox($"Smithbox has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
-                    $"Smithbox Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox($"DSMS has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".",
+                    $"DSMS Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-                PlatformUtils.Instance.MessageBox($"Smithbox has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
-                    $"Smithbox Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                PlatformUtils.Instance.MessageBox($"DSMS has run into an issue.\nCrash log has been generated at \"{crashLogPath}\".\n\nCrash Log:\n{string.Join("\n", exceptionInfo)}",
+                    $"DSMS Unhandled Error - {_version}", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
 

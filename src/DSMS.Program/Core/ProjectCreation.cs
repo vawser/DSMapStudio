@@ -268,7 +268,7 @@ public static class ProjectCreation
 
                     ImGui.AlignTextToFramePadding();
                     ImGui.Text("Automatic Load");
-                    UIHelper.Tooltip("If true, then this project will be automatically loaded when Smithbox launches.");
+                    UIHelper.Tooltip("If true, then this project will be automatically loaded when DSMS launches.");
 
                     ImGui.TableSetColumnIndex(1);
 

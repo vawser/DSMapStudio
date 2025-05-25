@@ -1123,16 +1123,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    FileDictionary = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.FileDictionary);
+                    FileDictionary = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.FileDictionary);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the file dictionary: {filepath}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the file dictionary: {filepath}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the file dictionary: {filepath}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the file dictionary: {filepath}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1159,7 +1159,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\Aliases\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var sourceFile = Path.Combine(sourceFolder, "Aliases.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\Aliases\{ProjectUtils.GetGameDirectory(ProjectType)}";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\Aliases\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var projectFile = Path.Combine(projectFolder, "Aliases.json");
 
         var targetFile = sourceFile;
@@ -1178,16 +1178,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    Aliases = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.AliasStore);
+                    Aliases = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.AliasStore);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the aliases: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the aliases: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the aliases: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the aliases: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1212,7 +1212,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\MSB\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var sourceFile = Path.Combine(sourceFolder, "Core.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\MSB\{ProjectUtils.GetGameDirectory(ProjectType)}";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\MSB\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var projectFile = Path.Combine(projectFolder, "Core.json");
 
         var targetFile = sourceFile;
@@ -1231,16 +1231,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    MsbInformation = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.FormatResource);
+                    MsbInformation = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.FormatResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the MSB information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the MSB information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the MSB information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the MSB information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1265,16 +1265,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    MsbEnums = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.FormatEnum);
+                    MsbEnums = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.FormatEnum);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the MSB enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the MSB enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the MSB enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the MSB enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1299,16 +1299,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    MsbMasks = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.FormatMask);
+                    MsbMasks = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.FormatMask);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the MSB masks: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the MSB masks: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the MSB masks: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the MSB masks: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1332,7 +1332,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\FLVER\";
         var sourceFile = Path.Combine(sourceFolder, "Core.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\FLVER\";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\FLVER\";
         var projectFile = Path.Combine(projectFolder, "Core.json");
 
         var targetFile = sourceFile;
@@ -1351,16 +1351,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    FlverInformation = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.FormatResource);
+                    FlverInformation = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.FormatResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the FLVER information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the FLVER information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the FLVER information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the FLVER information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1385,16 +1385,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    FlverEnums = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.FormatEnum);
+                    FlverEnums = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.FormatEnum);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the FLVER enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the FLVER enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the FLVER enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the FLVER enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1418,7 +1418,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\GPARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var sourceFile = Path.Combine(sourceFolder, "Core.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\GPARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\GPARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var projectFile = Path.Combine(projectFolder, "Core.json");
 
         var targetFile = sourceFile;
@@ -1437,16 +1437,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    GparamInformation = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.FormatResource);
+                    GparamInformation = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.FormatResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the GPARAM information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the GPARAM information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the GPARAM information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the GPARAM information: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1471,16 +1471,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    GparamEnums = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.FormatEnum);
+                    GparamEnums = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.FormatEnum);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the GPARAM enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the GPARAM enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the GPARAM enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the GPARAM enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1514,16 +1514,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    ParamMemoryOffsets = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.GameOffsetResource);
+                    ParamMemoryOffsets = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.GameOffsetResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the Param Reload offsets: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the Param Reload offsets: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the Param Reload offsets: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the Param Reload offsets: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1546,7 +1546,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var sourceFile = Path.Combine(sourceFolder, "Shared Param Enums.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var projectFile = Path.Combine(projectFolder, "Shared Param Enums.json");
 
         var targetFile = sourceFile;
@@ -1565,16 +1565,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    ProjectEnums = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.ProjectEnumResource);
+                    ProjectEnums = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.ProjectEnumResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the Project Enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the Project Enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the Project Enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the Project Enums: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1597,7 +1597,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var sourceFile = Path.Combine(sourceFolder, "Param Categories.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var projectFile = Path.Combine(projectFolder, "Param Categories.json");
 
         var targetFile = sourceFile;
@@ -1616,16 +1616,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    ParamCategories = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.ParamCategoryResource);
+                    ParamCategories = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.ParamCategoryResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the Param Categories: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the Param Categories: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the Param Categories: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the Param Categories: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1649,7 +1649,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var sourceFile = Path.Combine(sourceFolder, "Commutative Params.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\PARAM\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var projectFile = Path.Combine(projectFolder, "Commutative Params.json");
 
         var targetFile = sourceFile;
@@ -1668,16 +1668,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    CommutativeParamGroups = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.ParamCommutativeResource);
+                    CommutativeParamGroups = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.ParamCommutativeResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the Commutative Param Groups: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the Commutative Param Groups: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the Commutative Param Groups: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the Commutative Param Groups: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1700,7 +1700,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\MSB\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var sourceFile = Path.Combine(sourceFolder, "SpawnStates.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\MSB\{ProjectUtils.GetGameDirectory(ProjectType)}";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\MSB\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var projectFile = Path.Combine(projectFolder, "SpawnStates.json");
 
         var targetFile = sourceFile;
@@ -1719,16 +1719,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    MapSpawnStates = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.SpawnStateResource);
+                    MapSpawnStates = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.SpawnStateResource);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the Map Spawn States: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the Map Spawn States: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the Map Spawn States: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the Map Spawn States: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1748,7 +1748,7 @@ public class ProjectEntry
         MapEntitySelections = new();
 
         // Information
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\{ProjectUtils.GetGameDirectory(ProjectType)}\selections";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\{ProjectUtils.GetGameDirectory(ProjectType)}\selections";
         var projectFile = Path.Combine(projectFolder, "selection_groups.json");
 
         if (File.Exists(projectFile))
@@ -1760,16 +1760,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    MapEntitySelections = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.EntitySelectionGroupList);
+                    MapEntitySelections = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.EntitySelectionGroupList);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the Map Entity Selections: {projectFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the Map Entity Selections: {projectFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the Map Entity Selections: {projectFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the Map Entity Selections: {projectFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 
@@ -1792,7 +1792,7 @@ public class ProjectEntry
         var sourceFolder = $@"{AppContext.BaseDirectory}\Assets\MATERIAL\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var sourceFile = Path.Combine(sourceFolder, "Display Configuration.json");
 
-        var projectFolder = $@"{ProjectPath}\.smithbox\Assets\MATERIAL\{ProjectUtils.GetGameDirectory(ProjectType)}";
+        var projectFolder = $@"{ProjectPath}\.dsms\Assets\MATERIAL\{ProjectUtils.GetGameDirectory(ProjectType)}";
         var projectFile = Path.Combine(projectFolder, "Display Configuration.json");
 
         var targetFile = sourceFile;
@@ -1811,16 +1811,16 @@ public class ProjectEntry
                 try
                 {
                     var options = new JsonSerializerOptions();
-                    MaterialDisplayConfiguration = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.MaterialDisplayConfiguration);
+                    MaterialDisplayConfiguration = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.MaterialDisplayConfiguration);
                 }
                 catch (Exception e)
                 {
-                    TaskLogs.AddLog($"[Smithbox] Failed to deserialize the Material Display Configuration: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                    TaskLogs.AddLog($"[DSMS] Failed to deserialize the Material Display Configuration: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
                 }
             }
             catch (Exception e)
             {
-                TaskLogs.AddLog($"[Smithbox] Failed to read the Material Display Configuration: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
+                TaskLogs.AddLog($"[DSMS] Failed to read the Material Display Configuration: {targetFile}", LogLevel.Error, Tasks.LogPriority.High, e);
             }
         }
 

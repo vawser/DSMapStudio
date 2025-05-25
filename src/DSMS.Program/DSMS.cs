@@ -64,7 +64,7 @@ public class DSMS
         LowRequirementsMode = isLowRequirements;
 
         _version = version;
-        _programTitle = $"Smithbox - {_version}";
+        _programTitle = $"DSMapStudio - {_version}";
 
         TextureLoader = new ImGuiTextureLoader(context.Device, context.ImguiRenderer);
 
@@ -107,7 +107,7 @@ public class DSMS
     }
 
     /// <summary>
-    /// Called when Smithbox is starting up
+    /// Called when DSMS is starting up
     /// </summary>
     private void Setup()
     {
@@ -135,7 +135,7 @@ public class DSMS
     }
 
     /// <summary>
-    /// Called when Smithbox is shutting down
+    /// Called when DSMS is shutting down
     /// </summary>
     private void Exit()
     {
@@ -263,8 +263,8 @@ public class DSMS
     }
     private void CheckProgramUpdate()
     {
-        Octokit.GitHubClient gitHubClient = new(new Octokit.ProductHeaderValue("Smithbox"));
-        Octokit.Release release = gitHubClient.Repository.Release.GetLatest("vawser", "Smithbox").Result;
+        Octokit.GitHubClient gitHubClient = new(new Octokit.ProductHeaderValue("DSMapStudio"));
+        Octokit.Release release = gitHubClient.Repository.Release.GetLatest("soulsmods", "DSMapStudio").Result;
         var isVer = false;
         var verstring = "";
         foreach (var c in release.TagName)
@@ -412,7 +412,7 @@ public class DSMS
             catch (Exception e)
             {
                 PlatformUtils.Instance.MessageBox($"Unable to save config during crash recovery.\n" +
-                                                  $"If you continue to crash on startup, delete config in AppData\\Local\\Smithbox\n\n" +
+                                                  $"If you continue to crash on startup, delete config in .dsms folder in DSMS install directory.\n\n" +
                                                   $"{e.Message} {e.StackTrace}",
                     "Error",
                     MessageBoxButtons.OK,
@@ -502,73 +502,73 @@ public class DSMS
                 {
                     Settings.ToggleWindow(SelectedSettingTab.System);
                 }
-                UIHelper.Tooltip("Open the settings related to Smithbox's systems.");
+                UIHelper.Tooltip("Open the settings related to DSMS's systems.");
 
                 if (ImGui.MenuItem("Viewport"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.Viewport);
                 }
-                UIHelper.Tooltip("Open the settings related to Viewport in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Viewport in DSMS.");
 
                 if (ImGui.MenuItem("Interface"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.Interface);
                 }
-                UIHelper.Tooltip("Open the settings related to interface of Smithbox.");
+                UIHelper.Tooltip("Open the settings related to interface of DSMS.");
 
                 if (ImGui.MenuItem("Map Editor"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.MapEditor);
                 }
-                UIHelper.Tooltip("Open the settings related to Map Editor in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Map Editor in DSMS.");
 
                 if (ImGui.MenuItem("Model Editor"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.ModelEditor);
                 }
-                UIHelper.Tooltip("Open the settings related to Model Editor in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Model Editor in DSMS.");
 
                 if (ImGui.MenuItem("Param Editor"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.ParamEditor);
                 }
-                UIHelper.Tooltip("Open the settings related to Param Editor in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Param Editor in DSMS.");
 
                 if (ImGui.MenuItem("Text Editor"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.TextEditor);
                 }
-                UIHelper.Tooltip("Open the settings related to Text Editor in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Text Editor in DSMS.");
 
                 if (ImGui.MenuItem("Graphics Param Editor"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.GparamEditor);
                 }
-                UIHelper.Tooltip("Open the settings related to Gparam Editor in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Gparam Editor in DSMS.");
 
                 if (ImGui.MenuItem("Time Act Editor"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.TimeActEditor);
                 }
-                UIHelper.Tooltip("Open the settings related to Time Act Editor in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Time Act Editor in DSMS.");
 
                 if (ImGui.MenuItem("Event Script Editor"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.EmevdEditor);
                 }
-                UIHelper.Tooltip("Open the settings related to Emevd Editor in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Event Script Editor in DSMS.");
 
                 if (ImGui.MenuItem("EzState Script Editor"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.EsdEditor);
                 }
-                UIHelper.Tooltip("Open the settings related to Esd Editor in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to EzState Script Editor in DSMS.");
 
                 if (ImGui.MenuItem("Texture Viewer"))
                 {
                     Settings.ToggleWindow(SelectedSettingTab.TextureViewer);
                 }
-                UIHelper.Tooltip("Open the settings related to Texture Viewer in Smithbox.");
+                UIHelper.Tooltip("Open the settings related to Texture Viewer in DSMS.");
 
                 ImGui.EndMenu();
             }

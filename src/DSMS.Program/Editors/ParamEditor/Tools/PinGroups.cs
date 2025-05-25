@@ -48,9 +48,9 @@ public class PinGroups
 
     public void OnProjectChanged()
     {
-        ParamGroupPath = $"{Editor.Project.ProjectPath}\\.smithbox\\Workflow\\Pin Groups\\Params\\";
-        RowGroupPath = $"{Editor.Project.ProjectPath}\\.smithbox\\Workflow\\Pin Groups\\Rows\\";
-        FieldGroupPath = $"{Editor.Project.ProjectPath}\\.smithbox\\Workflow\\Pin Groups\\Fields\\";
+        ParamGroupPath = $"{Editor.Project.ProjectPath}\\.dsms\\Workflow\\Pin Groups\\Params\\";
+        RowGroupPath = $"{Editor.Project.ProjectPath}\\.dsms\\Workflow\\Pin Groups\\Rows\\";
+        FieldGroupPath = $"{Editor.Project.ProjectPath}\\.dsms\\Workflow\\Pin Groups\\Fields\\";
     }
 
     public void Display()

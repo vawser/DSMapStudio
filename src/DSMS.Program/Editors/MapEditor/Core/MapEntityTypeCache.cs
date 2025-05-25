@@ -67,7 +67,7 @@ public class MapEntityTypeCache
 
         /*
         // Routes
-        if (Smithbox.ProjectType is ProjectType.DS2 
+        if (Editor.Project.ProjectType is ProjectType.DS2 
             or ProjectType.DS2S
             or ProjectType.DS3
             or ProjectType.SDT
@@ -78,7 +78,7 @@ public class MapEntityTypeCache
         }
 
         // Layers
-        if (Smithbox.ProjectType is ProjectType.DS2
+        if (Editor.Project.ProjectType is ProjectType.DS2
             or ProjectType.DS2S
             or ProjectType.DS3
             or ProjectType.AC6)

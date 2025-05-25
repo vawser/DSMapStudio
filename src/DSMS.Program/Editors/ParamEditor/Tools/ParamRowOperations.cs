@@ -67,18 +67,18 @@ public partial class ParamTools
                     case TargetType.SelectedRows:
                         if (!rows.Any()) return;
                         TrimRowNameHelper(rows);
-                        PlatformUtils.Instance.MessageBox($"Row names for {rows.Count} selected rows have been trimmed.", $"Smithbox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        PlatformUtils.Instance.MessageBox($"Row names for {rows.Count} selected rows have been trimmed.", $"DSMS", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     case TargetType.SelectedParam:
                         TrimRowNameHelper(activeParam);
-                        PlatformUtils.Instance.MessageBox($"Row names for {activeParam} have been trimmed.", $"Smithbox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        PlatformUtils.Instance.MessageBox($"Row names for {activeParam} have been trimmed.", $"DSMS", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     case TargetType.AllParams:
                         foreach (var param in Editor.Project.ParamData.PrimaryBank.Params)
                         {
                             TrimRowNameHelper(param.Key);
                         }
-                        PlatformUtils.Instance.MessageBox($"Row names for all params have been trimmed.", $"Smithbox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        PlatformUtils.Instance.MessageBox($"Row names for all params have been trimmed.", $"DSMS", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

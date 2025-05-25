@@ -60,7 +60,7 @@ public class SelectionGroupView
         if (Editor.Project.ProjectPath == "")
             return;
 
-        var SelectionDirectory = $"{Editor.Project.ProjectPath}\\.smithbox\\{ProjectUtils.GetGameDirectory(Editor.Project)}\\selections";
+        var SelectionDirectory = $"{Editor.Project.ProjectPath}\\.dsms\\{ProjectUtils.GetGameDirectory(Editor.Project)}\\selections";
         var SelectionPath = $"{SelectionDirectory}\\selection_groups.json";
 
         if (!Directory.Exists(SelectionDirectory))
@@ -161,10 +161,10 @@ public class SelectionGroupView
         if (Editor.Project.ProjectType == ProjectType.Undefined)
             return false;
 
-        var SelectionDirectory = $"{Editor.Project.ProjectPath}\\.smithbox\\{ProjectUtils.GetGameDirectory(Editor.Project)}\\selections";
+        var SelectionDirectory = $"{Editor.Project.ProjectPath}\\.dsms\\{ProjectUtils.GetGameDirectory(Editor.Project)}\\selections";
         var SelectionPath = $"{SelectionDirectory}\\selection_groups.json";
 
-        string jsonString = JsonSerializer.Serialize(Editor.Project.MapEntitySelections, SmithboxSerializerContext.Default.EntitySelectionGroupList);
+        string jsonString = JsonSerializer.Serialize(Editor.Project.MapEntitySelections, DsmsSerializerContext.Default.EntitySelectionGroupList);
 
         if (Directory.Exists(SelectionDirectory))
         {
@@ -528,7 +528,7 @@ public class SelectionGroupView
 
         if (CFG.Current.MapEditor_SelectionGroup_ConfirmDelete)
         {
-            result = PlatformUtils.Instance.MessageBox($"You are about to delete this selection group. Are you sure?", $"Smithbox", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            result = PlatformUtils.Instance.MessageBox($"You are about to delete this selection group. Are you sure?", $"DSMS", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
         }
 
         if (result == DialogResult.Yes)

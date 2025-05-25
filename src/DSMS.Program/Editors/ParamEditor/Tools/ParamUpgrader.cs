@@ -256,7 +256,7 @@ public class ParamUpgrader
             try
             {
                 var options = new JsonSerializerOptions();
-                UpgraderInfo = JsonSerializer.Deserialize(filestring, SmithboxSerializerContext.Default.ParamUpgraderInfo);
+                UpgraderInfo = JsonSerializer.Deserialize(filestring, DsmsSerializerContext.Default.ParamUpgraderInfo);
             }
             catch (Exception e)
             {

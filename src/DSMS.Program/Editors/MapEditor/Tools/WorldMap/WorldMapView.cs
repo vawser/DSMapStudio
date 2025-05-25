@@ -90,10 +90,10 @@ public class WorldMapView : IResourceEventListener
     /// </summary>
     public void DisplayMenuOption()
     {
-        if (!ResourceManager.IsResourceLoaded("smithbox/worldmap/world_map_vanilla", AccessLevel.AccessGPUOptimizedOnly))
+        if (!ResourceManager.IsResourceLoaded("dsms/worldmap/world_map_vanilla", AccessLevel.AccessGPUOptimizedOnly))
             LoadWorldMapTexture();
 
-        if (!ResourceManager.IsResourceLoaded("smithbox/worldmap/world_map_sote", AccessLevel.AccessGPUOptimizedOnly))
+        if (!ResourceManager.IsResourceLoaded("dsms/worldmap/world_map_sote", AccessLevel.AccessGPUOptimizedOnly))
             LoadWorldMapTexture();
 
         IsMapWindowOpen = !IsMapWindowOpen;
@@ -247,11 +247,11 @@ public class WorldMapView : IResourceEventListener
         TextureViewWindowPosition = ImGui.GetWindowPos();
         TextureViewScrollPosition = new Vector2(ImGui.GetScrollX(), ImGui.GetScrollY());
 
-        ResourceHandle<TextureResource> resHandle = GetImageTextureHandle("smithbox/worldmap/world_map_vanilla");
+        ResourceHandle<TextureResource> resHandle = GetImageTextureHandle("dsms/worldmap/world_map_vanilla");
 
         if (CurrentMapSource is MapSource.ShadowOfTheErdtree)
         {
-            resHandle = GetImageTextureHandle("smithbox/worldmap/world_map_sote");
+            resHandle = GetImageTextureHandle("dsms/worldmap/world_map_sote");
         }
 
         if (resHandle != null)
@@ -373,7 +373,7 @@ public class WorldMapView : IResourceEventListener
 
         ResourceManager.ResourceJobBuilder job = ResourceManager.CreateNewJob($@"Loading World Map textures");
         ResourceDescriptor ad = new ResourceDescriptor();
-        ad.AssetVirtualPath = "smithbox/worldmap";
+        ad.AssetVirtualPath = "dsms/worldmap";
 
         if (!ResourceManager.IsResourceLoaded(ad.AssetVirtualPath, AccessLevel.AccessGPUOptimizedOnly))
         {

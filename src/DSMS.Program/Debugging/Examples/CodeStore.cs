@@ -57,7 +57,7 @@ namespace StudioCore.DebugNS;
 
 //        try
 //        {
-//            var fs = new FileStream($"{Smithbox.ProjectRoot}\\Havokalias.json", System.IO.FileMode.Create);
+//            var fs = new FileStream($"{DSMS.ProjectRoot}\\Havokalias.json", System.IO.FileMode.Create);
 //            var data = Encoding.ASCII.GetBytes(jsonString);
 //            fs.Write(data, 0, data.Length);
 //            fs.Flush();
@@ -74,7 +74,7 @@ namespace StudioCore.DebugNS;
 //    {
 //        string sourcePath = $@"F:\\SteamLibrary\\steamapps\\common\\ELDEN RING\\Game\\menu\\hi\01_common.sblytbnd.dcx";
 
-//        ShoeboxLayoutContainer container = new ShoeboxLayoutContainer(Smithbox.EditorHandler.TextureViewer);
+//        ShoeboxLayoutContainer container = new ShoeboxLayoutContainer(DSMS.EditorHandler.TextureViewer);
 //        container.LoadLayouts(sourcePath);
 //        foreach (var layout in container.Layouts)
 //        {
@@ -96,7 +96,7 @@ namespace StudioCore.DebugNS;
 //    public static void DumpUncompressedFiles()
 //    {
 //        string sourcePath = "F:\\SteamLibrary\\steamapps\\common\\ARMORED CORE VI FIRES OF RUBICON\\Game\\script";
-//        string destPath = "C:\\Users\\benja\\Programming\\C#\\Smithbox\\Dump";
+//        string destPath = "C:\\Users\\benja\\Programming\\C#\\DSMS\\Dump";
 //        string ext = $"*.luabnd.dcx";
 
 //        foreach (string path in Directory.GetFiles(sourcePath, ext))
@@ -138,10 +138,10 @@ namespace StudioCore.DebugNS;
 //        {
 //            List<string> sourcePaths = new List<string>
 //        {
-//            $"{Smithbox.GameRoot}\\map\\{sourceMap}\\{sourceMap}_0000-tpfbhd",
-//            $"{Smithbox.GameRoot}\\map\\{sourceMap}\\{sourceMap}_0001-tpfbhd",
-//            $"{Smithbox.GameRoot}\\map\\{sourceMap}\\{sourceMap}_0002-tpfbhd",
-//            $"{Smithbox.GameRoot}\\map\\{sourceMap}\\{sourceMap}_0003-tpfbhd"
+//            $"{DSMS.GameRoot}\\map\\{sourceMap}\\{sourceMap}_0000-tpfbhd",
+//            $"{DSMS.GameRoot}\\map\\{sourceMap}\\{sourceMap}_0001-tpfbhd",
+//            $"{DSMS.GameRoot}\\map\\{sourceMap}\\{sourceMap}_0002-tpfbhd",
+//            $"{DSMS.GameRoot}\\map\\{sourceMap}\\{sourceMap}_0003-tpfbhd"
 //        };
 
 //            List<string> witchyEntries = new List<string>();

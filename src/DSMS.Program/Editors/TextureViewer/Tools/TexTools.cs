@@ -44,7 +44,7 @@ public class TexTools
 
                 if (File.Exists(exportFilePath))
                 {
-                    var result = PlatformUtils.Instance.MessageBox($"Overwrite existing file at {exportFilePath}?", $"Smithbox", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var result = PlatformUtils.Instance.MessageBox($"Overwrite existing file at {exportFilePath}?", $"DSMS", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (result == DialogResult.No)
                     {
                         write = false;
@@ -54,7 +54,7 @@ public class TexTools
                 if (!Directory.Exists(exportPath))
                 {
                     write = false;
-                    PlatformUtils.Instance.MessageBox($"Directory is not valid.", $"Smithbox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    PlatformUtils.Instance.MessageBox($"Directory is not valid.", $"DSMS", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 if (write)
@@ -76,18 +76,18 @@ public class TexTools
 
                     if (CFG.Current.TextureViewerToolbar_ExportTexture_DisplayConfirm)
                     {
-                        PlatformUtils.Instance.MessageBox($"{filename} exported.", $"Smithbox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        PlatformUtils.Instance.MessageBox($"{filename} exported.", $"DSMS", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
             else
             {
-                PlatformUtils.Instance.MessageBox($"Export Destination is not set.", $"Smithbox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                PlatformUtils.Instance.MessageBox($"Export Destination is not set.", $"DSMS", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         else
         {
-            PlatformUtils.Instance.MessageBox($"No texture is currently being viewed.", $"Smithbox", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            PlatformUtils.Instance.MessageBox($"No texture is currently being viewed.", $"DSMS", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 

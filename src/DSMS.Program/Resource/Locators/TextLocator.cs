@@ -94,7 +94,7 @@ public static class TextLocator
 
     public static string GetStoredTextDirectory(ProjectEntry project)
     {
-        return $"{project.ProjectPath}\\.smithbox\\Workflow\\Exported Text";
+        return $"{project.ProjectPath}\\.dsms\\Workflow\\Exported Text";
     }
 
     public static List<string> GetStoredContainerWrappers(ProjectEntry project)

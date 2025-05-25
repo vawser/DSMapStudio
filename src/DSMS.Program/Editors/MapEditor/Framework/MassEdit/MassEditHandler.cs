@@ -206,7 +206,7 @@ public class MassEditHandler
         }
         UIHelper.Tooltip("Determines how the map list is obtained." +
             "\n\nLocal means only currently loaded maps will be edited (that match the map selection criteria)." +
-            "\n\nGlobal means all maps will be edited (that match the map selection criteria).\nWARNING: editing a large amounts of maps will cause Smithbox to hang until it is finished, which may be several minutes.");
+            "\n\nGlobal means all maps will be edited (that match the map selection criteria).\nWARNING: editing a large amounts of maps will cause DSMS to hang until it is finished, which may be several minutes.");
 
         //--------------
         // Map Inputs
